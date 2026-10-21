@@ -1,0 +1,1348 @@
+<!doctype html>
+<html lang="fr" data-theme="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Journal de travail — version partagée</title>
+<meta name="description" content="Journal de travail quotidien : PR, commits, revues, notes et livraisons.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='24' fill='%230a0c11'/%3E%3Cpath d='M24 68V32h9v27h17v9H24zm31 0V32h9v27h17v9H55z' fill='%23e0a458'/%3E%3C/svg%3E">
+<style>
+/* ------------------------------------------------------------------ */
+/* base                                                                */
+/* ------------------------------------------------------------------ */
+:root {
+  --bg: #0a0c11;
+  --bg-2: #0f1219;
+  --panel: rgba(20, 24, 33, .72);
+  --panel-solid: #141821;
+  --panel-2: #191e29;
+  --text: #eae7e1;
+  --muted: #a29d94;
+  --faint: #746f67;
+  --line: rgba(255, 255, 255, .085);
+  --line-strong: rgba(255, 255, 255, .16);
+  --accent: #e0a458;
+  --accent-2: #f2c078;
+  --accent-soft: rgba(224, 164, 88, .13);
+  --green: #5eead4;
+  --green-soft: rgba(94, 234, 212, .12);
+  --violet: #a78bfa;
+  --violet-soft: rgba(167, 139, 250, .13);
+  --pink: #f472b6;
+  --pink-soft: rgba(244, 114, 182, .12);
+  --blue: #60a5fa;
+  --blue-soft: rgba(96, 165, 250, .12);
+  --red: #fb7185;
+  --red-soft: rgba(251, 113, 133, .12);
+  --shadow: 0 24px 70px rgba(0, 0, 0, .34);
+  --radius: 18px;
+  --radius-sm: 12px;
+  --sans: "Liberation Sans", Arial, "Helvetica Neue", sans-serif;
+  --serif: "Liberation Serif", Georgia, "Times New Roman", serif;
+  --mono: ui-monospace, "SFMono-Regular", "Cascadia Code", "Roboto Mono", Menlo, monospace;
+  --max: 1160px;
+}
+[data-theme="light"] {
+  --bg: #f5f2eb;
+  --bg-2: #ede9e0;
+  --panel: rgba(255, 255, 255, .72);
+  --panel-solid: #fffdf8;
+  --panel-2: #f7f3eb;
+  --text: #1d1b18;
+  --muted: #6e675c;
+  --faint: #938a7d;
+  --line: rgba(29, 27, 24, .1);
+  --line-strong: rgba(29, 27, 24, .2);
+  --accent: #b87925;
+  --accent-2: #9a6117;
+  --accent-soft: rgba(184, 121, 37, .1);
+  --green: #0f766e;
+  --green-soft: rgba(15, 118, 110, .09);
+  --violet: #6d4bd8;
+  --violet-soft: rgba(109, 75, 216, .09);
+  --pink: #be185d;
+  --pink-soft: rgba(190, 24, 93, .08);
+  --blue: #1d4ed8;
+  --blue-soft: rgba(29, 78, 216, .08);
+  --red: #be123c;
+  --red-soft: rgba(190, 18, 60, .08);
+  --shadow: 0 24px 70px rgba(60, 48, 30, .12);
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  margin: 0;
+  min-height: 100vh;
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--sans);
+  font-size: 15px;
+  line-height: 1.55;
+}
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background:
+    radial-gradient(900px 520px at 12% -8%, rgba(224, 164, 88, .10), transparent 60%),
+    radial-gradient(800px 540px at 92% 0%, rgba(167, 139, 250, .08), transparent 55%),
+    radial-gradient(700px 500px at 50% 100%, rgba(94, 234, 212, .035), transparent 60%),
+    linear-gradient(180deg, var(--bg-2), var(--bg) 42%);
+}
+[data-theme="light"] body::before {
+  background:
+    radial-gradient(900px 520px at 12% -8%, rgba(184, 121, 37, .09), transparent 60%),
+    radial-gradient(800px 540px at 92% 0%, rgba(109, 75, 216, .06), transparent 55%),
+    linear-gradient(180deg, #faf8f3, var(--bg) 42%);
+}
+::selection { background: var(--accent); color: #15120d; }
+a { color: inherit; text-decoration: none; }
+button, input, select { font: inherit; color: inherit; }
+button { cursor: pointer; }
+button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible, summary:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+  border-radius: 6px;
+}
+.wrap { width: min(var(--max), calc(100% - 48px)); margin-inline: auto; }
+@media (max-width: 640px) { .wrap { width: min(var(--max), calc(100% - 28px)); } }
+
+/* ------------------------------------------------------------------ */
+/* hero                                                                */
+/* ------------------------------------------------------------------ */
+.hero { padding: 58px 0 26px; }
+.eyebrow {
+  display: flex; align-items: center; gap: 10px;
+  font-size: 11px; font-weight: 650; text-transform: uppercase;
+  color: var(--muted);
+}
+.eyebrow .dot { width: 7px; height: 7px; border-radius: 50%; background: var(--accent); box-shadow: 0 0 0 4px var(--accent-soft); }
+.eyebrow .sep { color: var(--faint); }
+.eyebrow .share-badge { color: var(--accent-2); }
+h1 {
+  margin: 16px 0 10px;
+  font-family: var(--serif);
+  font-size: clamp(38px, 6vw, 64px);
+  line-height: 1.02;
+ 
+  font-weight: 560;
+}
+.subtitle { margin: 0; font-size: 16px; color: var(--text); opacity: .86; }
+.generated { margin: 5px 0 0; font-size: 13px; color: var(--faint); }
+.hero-bar { display: flex; align-items: flex-end; justify-content: space-between; gap: 24px; flex-wrap: wrap; }
+.hero-actions { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; padding-top: 18px; }
+.btn {
+  display: inline-flex; align-items: center; gap: 7px;
+  padding: 8px 12px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: var(--panel);
+  color: var(--muted);
+  font-size: 12.5px;
+  font-weight: 550;
+  transition: border-color .15s, color .15s, background .15s, transform .15s;
+}
+.btn:hover { color: var(--text); border-color: var(--line-strong); transform: translateY(-1px); }
+.btn .ico { font-size: 14px; line-height: 1; }
+.btn.primary { color: #1a140b; background: var(--accent); border-color: transparent; }
+.btn.primary:hover { background: var(--accent-2); }
+.btn.ghost { background: transparent; }
+
+/* ------------------------------------------------------------------ */
+/* kpi                                                                 */
+/* ------------------------------------------------------------------ */
+.kpis {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 12px;
+  margin: 18px 0 18px;
+}
+.kpi {
+  position: relative;
+  overflow: hidden;
+  padding: 18px 18px 16px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--panel);
+  box-shadow: var(--shadow);
+}
+.kpi::after {
+  content: "";
+  position: absolute; inset: auto 0 0 0; height: 2px;
+  background: linear-gradient(90deg, var(--c, var(--accent)), transparent 75%);
+  opacity: .75;
+}
+.kpi .k-label { font-size: 10.5px; text-transform: uppercase; color: var(--muted); font-weight: 650; }
+.kpi .k-value { margin-top: 5px; font-family: var(--serif); font-size: 34px; line-height: 1; }
+.kpi .k-sub { margin-top: 7px; font-size: 12px; color: var(--faint); }
+@media (max-width: 900px) { .kpis { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+
+/* ------------------------------------------------------------------ */
+/* panels                                                              */
+/* ------------------------------------------------------------------ */
+.overview { display: grid; grid-template-columns: 1.35fr .9fr; gap: 14px; margin-bottom: 18px; align-items: stretch; }
+.overview .panel { display: flex; flex-direction: column; }
+.panel {
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--panel);
+  box-shadow: var(--shadow);
+  padding: 18px 18px 16px;
+  min-width: 0;
+}
+.panel-head { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; margin-bottom: 14px; }
+.panel-head h2, .section-head h2 { margin: 0; font-size: 13px; text-transform: uppercase; color: var(--text); font-weight: 700; }
+.panel-head span, .section-head .sub { font-size: 12px; color: var(--faint); }
+@media (max-width: 860px) { .overview { grid-template-columns: 1fr; } }
+
+/* chart */
+.chart { display: flex; align-items: flex-end; gap: 4px; height: auto; min-height: 150px; flex: 1 1 auto; padding-top: 8px; }
+.bar {
+  position: relative;
+  flex: 1 1 0;
+  min-width: 0;
+  height: 100%;
+  display: flex;
+  flex-direction: column-reverse;
+  justify-content: flex-start;
+  gap: 1px;
+  border: 0;
+  padding: 0;
+  background: transparent;
+  border-radius: 5px 5px 2px 2px;
+  transition: filter .15s, transform .15s;
+}
+.bar:hover { filter: brightness(1.18); transform: translateY(-2px); }
+.bar:focus-visible { outline-offset: 2px; }
+.bar .seg { display: block; width: 100%; min-height: 0; border-radius: 2px; }
+.bar .seg.commits { background: var(--accent); }
+.bar .seg.prs { background: var(--violet); }
+.bar .seg.reviews { background: var(--green); }
+.bar .seg.manual { background: var(--pink); }
+.bar .seg.notes { background: var(--muted); opacity: .55; }
+.bar.no-activity { background: linear-gradient(180deg, var(--line) 0 2px, transparent 2px); background-size: 100% 100%; background-repeat: no-repeat; background-position: bottom; }
+.chart-labels { display: flex; gap: 4px; margin-top: 7px; }
+.chart-labels span { flex: 1 1 0; min-width: 0; font-size: 10px; color: var(--faint); white-space: nowrap; overflow: visible; text-align: center; }
+.chart-legend { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 12px; font-size: 11px; color: var(--faint); }
+.legend-item { display: inline-flex; align-items: center; gap: 5px; }
+.legend-item i { width: 7px; height: 7px; border-radius: 2px; display: inline-block; }
+
+/* projects */
+.project-cards { display: flex; flex-direction: column; gap: 7px; }
+.project-card {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  grid-template-areas: "name spark" "stats spark" "last spark";
+  align-items: center;
+  gap: 1px 12px;
+  width: 100%;
+  padding: 9px 10px;
+  border: 1px solid transparent;
+  border-radius: var(--radius-sm);
+  background: transparent;
+  text-align: left;
+  transition: background .15s, border-color .15s;
+}
+.project-card:hover { background: var(--panel-2); border-color: var(--line); }
+.project-card.active { background: var(--accent-soft); border-color: color-mix(in srgb, var(--accent) 45%, transparent); }
+.project-card .p-dot { width: 8px; height: 8px; border-radius: 3px; background: var(--c, var(--accent)); flex: none; }
+.project-card .p-name { grid-area: name; display: flex; align-items: center; gap: 7px; min-width: 0; font-size: 13px; font-weight: 650; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.project-card .p-stats { grid-area: stats; font-size: 10.5px; color: var(--faint); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.project-card .p-last { grid-area: last; font-size: 10px; color: var(--faint); }
+.project-card .p-spark { grid-area: spark; display: flex; align-items: flex-end; gap: 1.5px; height: 26px; width: 62px; align-self: center; }
+.project-card .p-spark i { flex: 1; min-height: 2px; border-radius: 1px; background: var(--c, var(--accent)); opacity: .65; }
+
+/* ------------------------------------------------------------------ */
+/* section head                                                        */
+/* ------------------------------------------------------------------ */
+.section-head { display: flex; align-items: flex-end; justify-content: space-between; gap: 18px; flex-wrap: wrap; margin: 30px 0 12px; }
+.section-head .sub { color: var(--faint); font-size: 12px; }
+.section-head h2 { font-size: 13px; }
+.highlights-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 10px; }
+.highlight {
+  display: flex; flex-direction: column; gap: 7px;
+  padding: 13px 14px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-sm);
+  background: var(--panel);
+  min-height: 104px;
+  transition: border-color .15s, transform .15s, background .15s;
+}
+a.highlight:hover { border-color: var(--line-strong); transform: translateY(-2px); background: var(--panel-2); }
+.highlight .h-kind { font-size: 10px; text-transform: uppercase; color: var(--accent-2); font-weight: 700; }
+.highlight .h-title { font-size: 13.5px; font-weight: 600; line-height: 1.35; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
+.highlight .h-meta { margin-top: auto; font-size: 10.5px; color: var(--faint); display: flex; justify-content: space-between; gap: 8px; }
+@media (max-width: 980px) { .highlights-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 560px) { .highlights-grid { grid-template-columns: 1fr; } }
+
+/* ------------------------------------------------------------------ */
+/* filters                                                             */
+/* ------------------------------------------------------------------ */
+.timeline-section { margin-top: 10px; }
+.filter-bar {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  padding: 14px 0 10px;
+  margin: 0 -12px;
+  padding-inline: 12px;
+  border-bottom: 1px solid transparent;
+}
+.search {
+  flex: 1 1 260px;
+  min-width: 180px;
+  display: flex; align-items: center; gap: 8px;
+  padding: 8px 12px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: var(--panel);
+}
+.search input { flex: 1; min-width: 0; border: 0; outline: 0; background: transparent; font-size: 13px; }
+.search input::placeholder { color: var(--faint); }
+.search .ico { color: var(--faint); font-size: 14px; }
+.select {
+  padding: 8px 30px 8px 12px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: var(--panel);
+  font-size: 12.5px;
+  color: var(--muted);
+  appearance: none;
+  background-image: linear-gradient(45deg, transparent 50%, var(--faint) 50%), linear-gradient(135deg, var(--faint) 50%, transparent 50%);
+  background-position: calc(100% - 14px) 52%, calc(100% - 9px) 52%;
+  background-size: 5px 5px, 5px 5px;
+  background-repeat: no-repeat;
+}
+.chips { display: flex; flex-wrap: wrap; gap: 6px; margin: 8px 0 0; }
+.chip {
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 6px 10px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: transparent;
+  color: var(--muted);
+  font-size: 11.5px;
+  font-weight: 550;
+  transition: background .15s, border-color .15s, color .15s;
+}
+.chip:hover { color: var(--text); border-color: var(--line-strong); }
+.chip.active { color: var(--text); background: var(--accent-soft); border-color: color-mix(in srgb, var(--accent) 42%, transparent); }
+.chip .c-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--c, var(--accent)); }
+.chip .count { color: var(--faint); font-variant-numeric: tabular-nums; }
+.results-line { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin: 10px 0 4px; font-size: 11.5px; color: var(--faint); }
+.results-line button { border: 0; background: transparent; color: var(--accent-2); font-size: 11.5px; padding: 0; }
+.results-line button:hover { text-decoration: underline; }
+
+/* ------------------------------------------------------------------ */
+/* timeline                                                            */
+/* ------------------------------------------------------------------ */
+.timeline { position: relative; padding: 6px 0 40px; }
+.day-card {
+  position: relative;
+  margin: 0 0 14px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--panel);
+  box-shadow: var(--shadow);
+  overflow: clip;
+}
+@media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation-duration: .01ms !important; transition-duration: .01ms !important; scroll-behavior: auto !important; } }
+.day-card > summary { list-style: none; display: flex; align-items: stretch; cursor: pointer; }
+.day-card > summary::-webkit-details-marker { display: none; }
+.date-block {
+  position: relative;
+  width: 86px;
+  flex: 0 0 86px;
+  padding: 18px 16px 18px 14px;
+  border-right: 1px solid var(--line);
+  text-align: right;
+  background: linear-gradient(180deg, transparent, color-mix(in srgb, var(--panel-2) 40%, transparent));
+}
+.date-block::after {
+  content: "";
+  position: absolute; top: 24px; right: -5px;
+  width: 9px; height: 9px; border-radius: 50%;
+  background: var(--accent);
+  box-shadow: 0 0 0 4px color-mix(in srgb, var(--bg) 70%, transparent);
+}
+.date-block .weekday { display: block; font-size: 10px; text-transform: uppercase; color: var(--faint); font-weight: 650; }
+.date-block .daynum { display: block; font-family: var(--serif); font-size: 38px; line-height: 1; margin: 4px 0 1px; }
+.date-block .month { display: block; font-size: 10.5px; color: var(--muted); text-transform: uppercase; }
+.day-main { flex: 1 1 auto; padding: 17px 54px 17px 20px; min-width: 0; }
+.day-head { display: flex; align-items: baseline; justify-content: space-between; gap: 14px; flex-wrap: wrap; }
+.day-head h3 { margin: 0; font-size: 15px; font-weight: 650; }
+.day-chips { display: flex; flex-wrap: wrap; gap: 5px; }
+.mini { display: inline-flex; align-items: center; gap: 5px; padding: 3px 7px; border-radius: 999px; background: var(--panel-2); border: 1px solid var(--line); font-size: 10px; color: var(--muted); white-space: nowrap; }
+.mini b { color: var(--text); font-weight: 650; font-variant-numeric: tabular-nums; }
+.mini.pr { color: var(--violet); border-color: color-mix(in srgb, var(--violet) 26%, transparent); background: var(--violet-soft); }
+.mini.merged { color: var(--green); border-color: color-mix(in srgb, var(--green) 26%, transparent); background: var(--green-soft); }
+.mini.commits { color: var(--accent-2); border-color: color-mix(in srgb, var(--accent) 26%, transparent); background: var(--accent-soft); }
+.mini.review { color: var(--green); }
+.mini.manual { color: var(--pink); border-color: color-mix(in srgb, var(--pink) 24%, transparent); background: var(--pink-soft); }
+.mini.note { color: var(--muted); }
+.day-headline { margin: 6px 0 0; color: var(--muted); font-size: 13px; }
+.day-projects-line { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 9px; }
+.mini-project { display: inline-flex; align-items: center; gap: 5px; font-size: 10.5px; color: var(--faint); }
+.mini-project i { width: 6px; height: 6px; border-radius: 2px; display: inline-block; }
+.day-toggle {
+  position: absolute; top: 16px; right: 16px;
+  width: 26px; height: 26px; border-radius: 50%;
+  display: grid; place-items: center;
+  border: 1px solid var(--line); background: var(--panel);
+  color: var(--faint); font-size: 13px;
+  transition: transform .2s, color .15s;
+}
+.day-card[open] .day-toggle { transform: rotate(180deg); color: var(--text); }
+.day-card:not([open]) .day-toggle { transform: rotate(0deg); }
+.day-body { padding: 0 18px 18px 106px; }
+.day-actions { display: flex; flex-wrap: wrap; gap: 6px; margin: 2px 0 12px; padding-top: 10px; border-top: 1px solid var(--line); }
+.day-actions .btn { padding: 5px 9px; font-size: 11px; }
+.day-card.flash { animation: flash 1.4s ease; }
+@keyframes flash { 0%, 100% { box-shadow: var(--shadow); } 25% { box-shadow: 0 0 0 2px var(--accent), var(--shadow); } }
+
+/* project groups */
+.project-group { border: 1px solid var(--line); border-radius: var(--radius-sm); margin-top: 8px; background: color-mix(in srgb, var(--panel-2) 46%, transparent); overflow: clip; }
+.project-group > summary { list-style: none; display: flex; align-items: center; gap: 9px; padding: 9px 11px; cursor: pointer; }
+.project-group > summary::-webkit-details-marker { display: none; }
+.project-group .pg-dot { width: 8px; height: 8px; border-radius: 3px; background: var(--c, var(--accent)); flex: none; }
+.project-group .pg-name { font-size: 12.5px; font-weight: 650; }
+.project-group .pg-stats { font-size: 10.5px; color: var(--faint); margin-left: auto; }
+.project-group .pg-chevron { color: var(--faint); font-size: 11px; transition: transform .18s; }
+.project-group[open] .pg-chevron { transform: rotate(180deg); }
+.project-group .pg-body { padding: 0 12px 6px; }
+
+/* events */
+.event { display: grid; grid-template-columns: auto minmax(0, 1fr) auto; gap: 9px; align-items: start; padding: 9px 0; border-top: 1px solid var(--line); }
+.event:first-child { border-top: 0; }
+.badge {
+  display: inline-flex; align-items: center; justify-content: center;
+  min-width: 58px;
+  padding: 3px 7px;
+  border-radius: 5px;
+  font-size: 9.5px;
+  font-weight: 700;
+ 
+  text-transform: uppercase;
+  white-space: nowrap;
+  border: 1px solid transparent;
+}
+.badge.pr { color: var(--violet); background: var(--violet-soft); border-color: color-mix(in srgb, var(--violet) 25%, transparent); }
+.badge.merged { color: var(--green); background: var(--green-soft); border-color: color-mix(in srgb, var(--green) 25%, transparent); }
+.badge.review { color: var(--green); background: var(--green-soft); }
+.badge.issue { color: var(--blue); background: var(--blue-soft); }
+.badge.release { color: var(--accent-2); background: var(--accent-soft); }
+.badge.commits { color: var(--accent-2); background: var(--accent-soft); border-color: color-mix(in srgb, var(--accent) 25%, transparent); }
+.badge.manual { color: var(--pink); background: var(--pink-soft); border-color: color-mix(in srgb, var(--pink) 22%, transparent); }
+.badge.note { color: var(--muted); background: var(--panel-2); border-color: var(--line); }
+.event-main { min-width: 0; }
+.event-title { display: inline; font-size: 12.8px; font-weight: 560; line-height: 1.4; color: var(--text); }
+a.event-title:hover { color: var(--accent-2); text-decoration: underline; text-underline-offset: 2px; }
+.event-meta { display: flex; flex-wrap: wrap; align-items: center; gap: 5px; margin-top: 3px; font-size: 10.5px; color: var(--faint); }
+.event-meta .repo { font-family: var(--mono); font-size: 10px; color: var(--muted); }
+.event-meta .sep { color: var(--line-strong); }
+.event-meta .add { color: var(--green); }
+.event-meta .del { color: var(--red); }
+.event-meta .lock { color: var(--faint); border: 1px solid var(--line); border-radius: 4px; padding: 0 4px; font-size: 9px; text-transform: uppercase; }
+.event-detail { margin: 4px 0 0; font-size: 11.5px; color: var(--muted); line-height: 1.45; }
+.event-link { color: var(--faint); font-size: 13px; padding: 2px 4px; border-radius: 5px; }
+.event-link:hover { color: var(--accent-2); background: var(--accent-soft); }
+
+/* commits */
+.commit-group { border-top: 1px solid var(--line); padding: 7px 0; }
+.commit-group > summary { list-style: none; display: flex; align-items: center; gap: 8px; cursor: pointer; }
+.commit-group > summary::-webkit-details-marker { display: none; }
+.commit-group .commit-repo { font-family: var(--mono); font-size: 10.5px; color: var(--faint); }
+.commit-group .commit-more { margin-left: auto; font-size: 10px; color: var(--faint); }
+.commit-list { list-style: none; margin: 7px 0 2px; padding: 0 0 0 10px; border-left: 1px solid var(--line-strong); }
+.commit-list li { display: flex; gap: 8px; align-items: baseline; padding: 3px 0; font-size: 11.5px; color: var(--muted); }
+.commit-list li .sha { font-family: var(--mono); font-size: 9.5px; color: var(--faint); flex: none; }
+.commit-list li a { color: var(--muted); }
+.commit-list li a:hover { color: var(--accent-2); text-decoration: underline; }
+
+/* note */
+.note-block { margin-top: 10px; padding: 12px 13px; border: 1px dashed color-mix(in srgb, var(--accent) 30%, var(--line)); border-radius: var(--radius-sm); background: color-mix(in srgb, var(--accent-soft) 55%, transparent); }
+.note-head { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+.note-head .note-title { font-size: 12px; font-weight: 650; }
+.note-head .note-local { margin-left: auto; font-size: 9.5px; color: var(--faint); text-transform: uppercase; }
+.note-text { margin: 7px 0 0; white-space: pre-wrap; font-size: 12px; color: var(--muted); line-height: 1.5; }
+.note-more { margin-top: 5px; }
+.note-more > summary { cursor: pointer; font-size: 11px; color: var(--accent-2); }
+.note-actions { display: flex; gap: 6px; margin-top: 8px; flex-wrap: wrap; }
+.note-actions .btn { padding: 4px 8px; font-size: 10.5px; }
+
+/* empty / footer / toast */
+#empty { padding: 50px 20px; text-align: center; border: 1px dashed var(--line); border-radius: var(--radius); color: var(--faint); }
+#empty strong { display: block; color: var(--text); font-family: var(--serif); font-size: 22px; font-weight: 500; margin-bottom: 6px; }
+.site-footer { padding: 26px 0 40px; border-top: 1px solid var(--line); margin-top: 20px; color: var(--faint); font-size: 11.5px; display: flex; justify-content: space-between; gap: 16px; flex-wrap: wrap; }
+.site-footer a { color: var(--muted); }
+.site-footer a:hover { color: var(--accent-2); }
+.toast {
+  position: fixed; left: 50%; bottom: 24px; transform: translate(-50%, 16px);
+  z-index: 100; padding: 9px 14px; border-radius: 999px;
+  background: var(--text); color: var(--bg);
+  font-size: 12px; font-weight: 600; opacity: 0; pointer-events: none;
+  transition: opacity .2s, transform .2s;
+  box-shadow: var(--shadow);
+}
+.toast.show { opacity: 1; transform: translate(-50%, 0); }
+.warn {
+  display: flex; gap: 10px; align-items: flex-start;
+  padding: 11px 13px; margin: 0 0 14px;
+  border: 1px solid color-mix(in srgb, var(--accent) 32%, var(--line));
+  border-radius: var(--radius-sm);
+  background: var(--accent-soft);
+  font-size: 12px; color: var(--muted);
+}
+.warn b { color: var(--text); }
+.warn code { font-family: var(--mono); font-size: 11px; color: var(--accent-2); }
+
+/* responsive */
+@media (max-width: 720px) {
+  .hero { padding-top: 38px; }
+  .day-card > summary { display: block; }
+  .date-block { display: flex; width: auto; align-items: baseline; gap: 8px; text-align: left; border-right: 0; border-bottom: 1px solid var(--line); padding: 10px 14px; }
+  .date-block::after { top: auto; bottom: -5px; right: auto; left: 18px; }
+  .date-block .daynum { font-size: 22px; margin: 0; }
+  .date-block .weekday, .date-block .month { display: inline; font-size: 10px; }
+  .day-body { padding: 0 14px 14px; }
+  .day-main { padding: 14px; }
+  .day-toggle { top: 10px; right: 12px; }
+  .day-head { padding-right: 24px; }
+  .filter-bar { margin-inline: -6px; padding-inline: 6px; }
+  .chips { flex-wrap: nowrap; overflow-x: auto; scrollbar-width: none; padding-bottom: 2px; }
+  .chips::-webkit-scrollbar { display: none; }
+  .chip { flex: 0 0 auto; }
+  .chart { height: 110px; min-height: 110px; flex: 0 0 110px; }
+  .chart-labels span { font-size: 10px; }
+}
+
+/* print */
+@media print {
+  @page { size: A4; margin: 12mm; }
+  * { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  :root { --bg: #fff; --bg-2: #fff; --panel: #fff; --panel-solid: #fff; --panel-2: #fff; --text: #111; --muted: #444; --faint: #666; --line: #ddd; --line-strong: #bbb; --shadow: none; }
+  body { font-size: 11pt; }
+  body::before, .hero-actions, .filter-bar, .chips, .results-line, .day-toggle, .day-actions, .note-actions, .site-footer .no-print, .warn { display: none !important; }
+  .hero { padding: 0 0 10px; }
+  h1 { font-size: 28pt; }
+  .kpis { grid-template-columns: repeat(4, 1fr); gap: 6px; }
+  .kpi { padding: 10px; box-shadow: none; }
+  .highlights-grid { display: block; }
+  .overview { grid-template-columns: 1.35fr .9fr; gap: 10px; }
+  .chart { height: 140px; min-height: 0; flex: 0 0 140px; }
+  .chart-legend { display: flex; margin-top: 8px; }
+  .timeline-section { break-before: page; }
+  .panel, .highlight, .day-card { box-shadow: none; break-inside: avoid; }
+  .day-card { margin-bottom: 8px; }
+  .day-card, .project-group, .commit-group { break-inside: avoid; }
+  a { color: #111; text-decoration: underline; }
+  .badge { border: 1px solid #999; }
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="hero">
+    <div class="eyebrow">
+      <span class="dot"></span><span>Worklog</span><span class="sep">/</span>
+      <span id="period-label">journal quotidien</span>
+      <span class="share-badge" id="share-badge" hidden>version partagée</span>
+    </div>
+    <div class="hero-bar">
+      <div>
+        <h1>Journal de travail</h1>
+        <p class="subtitle">Simon Van de Meersche</p>
+        <p class="generated">Généré le mercredi 21 octobre 2026 à 23:56 · worklog 0.1.0</p>
+      </div>
+      <div class="hero-actions">
+        <button type="button" class="btn" id="theme-toggle" aria-label="Changer de thème"><span class="ico">◐</span><span class="label">Thème</span></button>
+        <button type="button" class="btn" id="expand-all"><span class="ico">⌄</span>Tout déplier</button>
+        <button type="button" class="btn" id="collapse-all"><span class="ico">⌃</span>Tout replier</button>
+        <button type="button" class="btn" id="export-md"><span class="ico">↓</span>Exporter .md</button>
+        <button type="button" class="btn ghost" id="print-btn"><span class="ico">⌘</span>Imprimer / PDF</button>
+      </div>
+    </div>
+  </header>
+
+  <div id="source-warn"></div>
+  <section class="kpis" id="kpis" aria-label="Chiffres clés"></section>
+
+  <section class="overview">
+    <div class="panel">
+      <div class="panel-head"><h2>Activité</h2><span>30 derniers jours</span></div>
+      <div id="chart" class="chart" aria-label="Activité par jour"></div>
+      <div id="chart-labels" class="chart-labels"></div>
+      <div class="chart-legend">
+        <span class="legend-item"><i style="background:var(--accent)"></i>commits</span>
+        <span class="legend-item"><i style="background:var(--violet)"></i>PR</span>
+        <span class="legend-item"><i style="background:var(--green)"></i>revues</span>
+        <span class="legend-item"><i style="background:var(--pink)"></i>tâches</span>
+        <span class="legend-item"><i style="background:var(--muted)"></i>notes</span>
+      </div>
+    </div>
+    <div class="panel">
+      <div class="panel-head"><h2>Projets</h2><span id="projects-count"></span></div>
+      <div id="project-cards" class="project-cards"></div>
+    </div>
+  </section>
+
+  <section id="highlights-section">
+    <div class="section-head"><h2>Ce qui a été livré</h2><span class="sub" id="highlights-count"></span></div>
+    <div id="highlights" class="highlights-grid"></div>
+  </section>
+
+  <section class="timeline-section">
+    <div class="section-head"><h2>La timeline</h2><span class="sub">Clique sur un jour pour voir le détail.</span></div>
+    <div class="filter-bar" id="filter-bar">
+      <label class="search"><span class="ico">⌕</span><input id="search" type="search" placeholder="Rechercher un projet, une PR, un commit…" autocomplete="off" aria-label="Rechercher"></label>
+      <select id="range" class="select" aria-label="Période">
+        <option value="7">7 derniers jours</option>
+        <option value="30">30 derniers jours</option>
+        <option value="90">90 derniers jours</option>
+        <option value="0">Tout l'historique</option>
+      </select>
+    </div>
+    <div class="chips" id="project-filters" aria-label="Filtrer par projet"></div>
+    <div class="chips" id="kind-filters" aria-label="Filtrer par type"></div>
+    <div class="results-line"><span id="results-count"></span><button type="button" id="clear-filters">Réinitialiser les filtres</button></div>
+    <div id="timeline" class="timeline"></div>
+    <div id="empty" class="empty" hidden><strong>Rien à afficher</strong>Essaie une autre période ou retire un filtre.</div>
+  </section>
+
+  <footer class="site-footer">
+    <span>worklog 0.1.0 · données locales · <a href="journal-partage.md">journal Markdown</a></span>
+    <span class="no-print">GitHub · git local · NoteFlow · entrées manuelles</span>
+  </footer>
+</div>
+<div id="toast" class="toast" role="status" aria-live="polite"></div>
+<script id="worklog-data" type="application/json">{"meta":{"version":"0.1.0","generated_at":"2026-10-21T23:56:57.178831+02:00","generated_label":"mercredi 21 octobre 2026 à 23:56","identity":{"name":"Simon Van de Meersche","github":"Tegath"},"share":true,"notes_included":false,"default_range_days":30,"theme":"auto","sources":{},"summary":{"days":7,"events":13,"commits":44,"prs_merged":0,"prs_opened":0,"reviews":0,"notes":0,"manual":1,"first":"2026-09-22","last":"2026-10-21"}},"projects":[{"key":"momentum","label":"Momentum","short":"Momentum","kind":"product","color":"#8b5cf6","counts":{"commits":23,"prs_merged":0,"prs_opened":0,"reviews":0,"notes":0,"manual":0,"events":6},"last_active":"2026-10-21","weight":23},{"key":"mnemosyne","label":"Mnemosyne","short":"Mnemosyne","kind":"product","color":"#10b981","counts":{"commits":11,"prs_merged":0,"prs_opened":0,"reviews":0,"notes":0,"manual":0,"events":1},"last_active":"2026-09-22","weight":11},{"key":"talkify","label":"Talkify","short":"Talkify","kind":"product","color":"#ec4899","counts":{"commits":4,"prs_merged":0,"prs_opened":0,"reviews":0,"notes":0,"manual":0,"events":1},"last_active":"2026-10-17","weight":4},{"key":"mail-hub","label":"Mail Hub","short":"Mail Hub","kind":"product","color":"#06b6d4","counts":{"commits":4,"prs_merged":0,"prs_opened":0,"reviews":0,"notes":0,"manual":0,"events":2},"last_active":"2026-10-20","weight":4},{"key":"mailspring","label":"Mailspring","short":"Mailspring","kind":"product","color":"#ef4444","counts":{"commits":2,"prs_merged":0,"prs_opened":0,"reviews":0,"notes":0,"manual":0,"events":2},"last_active":"2026-10-20","weight":2},{"key":"elevedia","label":"Elevedia — agents vocaux","short":"Elevedia","kind":"business","color":"#f59e0b","counts":{"commits":0,"prs_merged":0,"prs_opened":0,"reviews":0,"notes":0,"manual":1,"events":1},"last_active":"2026-10-21","weight":1}],"days":[{"date":"2026-10-21","label":"mercredi 21 octobre 2026","short":"21 oct.","weekday":"mercredi","day":21,"month":"oct.","counts":{"commits":1,"prs_opened":0,"prs_merged":0,"reviews":0,"issues_opened":0,"issues_closed":0,"releases":0,"notes":0,"manual":1,"features":0,"events":2},"headline":"1 commit et 1 tâche sur 2 projets.","projects":[{"key":"momentum","label":"Momentum","short":"Momentum","color":"#8b5cf6","count":1,"weight":1,"kinds":{"commits":1}},{"key":"elevedia","label":"Elevedia — agents vocaux","short":"Elevedia","color":"#f59e0b","count":1,"weight":1,"kinds":{"manual":1}}],"events":[{"id":"manual:2026-10-21:212431371673","source":"manual","kind":"manual","action":"task","timestamp":"2026-10-21T18:30:00+02:00","date":"2026-10-21","title":"Agent vocal : transfert d'appel, mise en mute et SMS de confirmation","detail":"Spécifications issues de la note du jour : transfert de l'agent vers le portable du restaurateur, mise en mute pour écouter la conversation, et SMS de confirmation au client.","url":"","repo":"","repo_url":"","project":"elevedia","private":false,"count":1,"search":"agent vocal : transfert d'appel, mise en mute et sms de confirmation spécifications issues de la note du jour : transfert de l'agent vers le portable du restaurateur, mise en mute pour écouter la conversation, et sms de confirmation au client.","meta":{"entry_kind":"task","kind_label":"Tâche","project_label":"Elevedia — agents vocaux"}},{"id":"commits:2026-10-21:momentum","source":"git","kind":"commits","action":"pushed","timestamp":"2026-10-21T22:37:45+02:00","date":"2026-10-21","title":"1 commit","detail":"","url":"","repo":"momentum","repo_url":"","project":"momentum","private":false,"count":1,"search":"momentum 1 commit tâches : sidebar zones/projets façon things 3","meta":{"commits":[{"sha":"5e1eeafb548e21cbb5ec7c1b244a846ade6659b2","subject":"Tâches : sidebar zones/projets façon Things 3","url":"","time":"2026-10-21T22:37:45+02:00","source":"git"}]}}],"note":null},{"date":"2026-10-20","label":"mardi 20 octobre 2026","short":"20 oct.","weekday":"mardi","day":20,"month":"oct.","counts":{"commits":7,"prs_opened":0,"prs_merged":0,"reviews":0,"issues_opened":0,"issues_closed":0,"releases":0,"notes":0,"manual":0,"features":0,"events":3},"headline":"7 commits sur 3 projets.","projects":[{"key":"momentum","label":"Momentum","short":"Momentum","color":"#8b5cf6","count":1,"weight":3,"kinds":{"commits":3}},{"key":"mail-hub","label":"Mail Hub","short":"Mail Hub","color":"#06b6d4","count":1,"weight":3,"kinds":{"commits":3}},{"key":"mailspring","label":"Mailspring","short":"Mailspring","color":"#ef4444","count":1,"weight":1,"kinds":{"commits":1}}],"events":[{"id":"commits:2026-10-20:momentum","source":"git","kind":"commits","action":"pushed","timestamp":"2026-10-20T21:17:58+02:00","date":"2026-10-20","title":"3 commits","detail":"","url":"","repo":"momentum","repo_url":"","project":"momentum","private":false,"count":3,"search":"momentum 3 commits omarchy : la palette suit les bascules de thème momentum : archiver et supprimer les zones et projets momentum : actions au survol et gestion des zones et projets","meta":{"commits":[{"sha":"a13e9649e447d06dbb6f121ccce1903ecbc3537f","subject":"Omarchy : la palette suit les bascules de thème","url":"","time":"2026-10-20T21:17:12+02:00","source":"git"},{"sha":"e7022f7b5cd9eac36b40e7e492df8e11be1343f2","subject":"Momentum : archiver et supprimer les zones et projets","url":"","time":"2026-10-20T21:17:41+02:00","source":"git"},{"sha":"17472be53b698a0dc77f2828bc0b0e96f3e799eb","subject":"Momentum : actions au survol et gestion des zones et projets","url":"","time":"2026-10-20T21:17:58+02:00","source":"git"}]}},{"id":"commits:2026-10-20:mailspring-mailhub","source":"git","kind":"commits","action":"pushed","timestamp":"2026-10-20T22:33:20+02:00","date":"2026-10-20","title":"1 commit","detail":"","url":"","repo":"mailspring-mailhub","repo_url":"","project":"mailspring","private":false,"count":1,"search":"mailspring-mailhub 1 commit mcp: add create_category (gmail labels / outlook folders)","meta":{"commits":[{"sha":"2ef970880d77722ffe8f43c5f87cbac7aa9f281a","subject":"mcp: add create_category (Gmail labels / Outlook folders)","url":"","time":"2026-10-20T22:33:20+02:00","source":"git"}]}},{"id":"commits:2026-10-20:mail-hub","source":"git","kind":"commits","action":"pushed","timestamp":"2026-10-20T23:03:56+02:00","date":"2026-10-20","title":"3 commits","detail":"","url":"","repo":"mail-hub","repo_url":"","project":"mail-hub","private":false,"count":3,"search":"mail-hub 3 commits triage: classement déterministe via mcp, relances et timer triage: étoile sécurité, état des fils gardés, libellé en attente sur les relances triage: règles decodo et webinaires","meta":{"commits":[{"sha":"741b21b6de7291de603fd3abdbffb7839201ceba","subject":"triage: classement déterministe via MCP, relances et timer","url":"","time":"2026-10-20T22:33:13+02:00","source":"git"},{"sha":"1c7ae28f2e8bd3f4a540711da5bd08d7dc51f29b","subject":"triage: étoile sécurité, état des fils gardés, libellé En attente sur les relances","url":"","time":"2026-10-20T22:37:12+02:00","source":"git"},{"sha":"0f90d327788026e28494e0f50eadda897de2193d","subject":"triage: règles decodo et webinaires","url":"","time":"2026-10-20T23:03:56+02:00","source":"git"}]}}],"note":null},{"date":"2026-10-19","label":"lundi 19 octobre 2026","short":"19 oct.","weekday":"lundi","day":19,"month":"oct.","counts":{"commits":5,"prs_opened":0,"prs_merged":0,"reviews":0,"issues_opened":0,"issues_closed":0,"releases":0,"notes":0,"manual":0,"features":0,"events":3},"headline":"5 commits sur 3 projets.","projects":[{"key":"momentum","label":"Momentum","short":"Momentum","color":"#8b5cf6","count":1,"weight":3,"kinds":{"commits":3}},{"key":"mailspring","label":"Mailspring","short":"Mailspring","color":"#ef4444","count":1,"weight":1,"kinds":{"commits":1}},{"key":"mail-hub","label":"Mail Hub","short":"Mail Hub","color":"#06b6d4","count":1,"weight":1,"kinds":{"commits":1}}],"events":[{"id":"commits:2026-10-19:mailspring-mailhub","source":"git","kind":"commits","action":"pushed","timestamp":"2026-10-19T09:08:06+02:00","date":"2026-10-19","title":"1 commit","detail":"","url":"","repo":"mailspring-mailhub","repo_url":"","project":"mailspring","private":false,"count":1,"search":"mailspring-mailhub 1 commit mail hub: notification policy fed by mail-hub + personnalisation du fork","meta":{"commits":[{"sha":"5ae073ff2d56951a6f0a6e632543452223717581","subject":"Mail Hub: notification policy fed by mail-hub + personnalisation du fork","url":"","time":"2026-10-19T09:08:06+02:00","source":"git"}]}},{"id":"commits:2026-10-19:mail-hub","source":"git","kind":"commits","action":"pushed","timestamp":"2026-10-19T09:09:38+02:00","date":"2026-10-19","title":"1 commit","detail":"","url":"","repo":"mail-hub","repo_url":"","project":"mail-hub","private":false,"count":1,"search":"mail-hub 1 commit api locale pour l'ui + unité systemd mail-hub-server","meta":{"commits":[{"sha":"0cddd5d7f6c96963c06426fcf0e6d11ca3c0cfb7","subject":"API locale pour l'UI + unité systemd mail-hub-server","url":"","time":"2026-10-19T09:09:38+02:00","source":"git"}]}},{"id":"commits:2026-10-19:momentum","source":"git","kind":"commits","action":"pushed","timestamp":"2026-10-19T11:09:39+02:00","date":"2026-10-19","title":"3 commits","detail":"","url":"","repo":"momentum","repo_url":"","project":"momentum","private":false,"count":3,"search":"momentum 3 commits hud : supprimer une tâche depuis la modal ne la coche plus hud : le clic montre les tâches, avec sous-tâches et lecteur d'ambiance docs : le clic de la pastille ouvre les tâches, plus l'ambiance","meta":{"commits":[{"sha":"03235cc4b5f28697118e00b8bd37e858b6ffd1b4","subject":"HUD : supprimer une tâche depuis la modal ne la coche plus","url":"","time":"2026-10-19T09:06:19+02:00","source":"git"},{"sha":"f267a3b7ed5ef16f9c854f3752a698adf274eefd","subject":"HUD : le clic montre les tâches, avec sous-tâches et lecteur d'ambiance","url":"","time":"2026-10-19T11:03:45+02:00","source":"git"},{"sha":"3a9015f8a9d8e80abef6ee7cc90f5b911e992937","subject":"Docs : le clic de la pastille ouvre les tâches, plus l'ambiance","url":"","time":"2026-10-19T11:09:39+02:00","source":"git"}]}}],"note":null},{"date":"2026-10-18","label":"dimanche 18 octobre 2026","short":"18 oct.","weekday":"dimanche","day":18,"month":"oct.","counts":{"commits":4,"prs_opened":0,"prs_merged":0,"reviews":0,"issues_opened":0,"issues_closed":0,"releases":0,"notes":0,"manual":0,"features":0,"events":1},"headline":"4 commits.","projects":[{"key":"momentum","label":"Momentum","short":"Momentum","color":"#8b5cf6","count":1,"weight":4,"kinds":{"commits":4}}],"events":[{"id":"commits:2026-10-18:momentum","source":"git","kind":"commits","action":"pushed","timestamp":"2026-10-18T20:48:51+02:00","date":"2026-10-18","title":"4 commits","detail":"","url":"","repo":"momentum","repo_url":"","project":"momentum","private":false,"count":4,"search":"momentum 4 commits ambiances sonores : la musique du focus, tes fichiers en boucle réglages : choisir son ambiance dans le tableau de bord hud : la pastille ne s'anime que si elle est visible et qu'un focus tourne hud : la pastille ne redessine plus en boucle au repos","meta":{"commits":[{"sha":"47f238d283a1ec9ce078eed996819f6061445913","subject":"Ambiances sonores : la musique du focus, tes fichiers en boucle","url":"","time":"2026-10-18T15:06:01+02:00","source":"git"},{"sha":"1cf048ff0eb0a02956458dc51410545b808285f4","subject":"Réglages : choisir son ambiance dans le tableau de bord","url":"","time":"2026-10-18T18:15:03+02:00","source":"git"},{"sha":"0ee810ed36d8973ceb0da31fb1f6dd4ed713bb05","subject":"HUD : la pastille ne s'anime que si elle est visible et qu'un focus tourne","url":"","time":"2026-10-18T20:33:39+02:00","source":"git"},{"sha":"390a10157f6984b597da917fe659e1cdedb7a469","subject":"HUD : la pastille ne redessine plus en boucle au repos","url":"","time":"2026-10-18T20:48:51+02:00","source":"git"}]}}],"note":null},{"date":"2026-10-17","label":"samedi 17 octobre 2026","short":"17 oct.","weekday":"samedi","day":17,"month":"oct.","counts":{"commits":11,"prs_opened":0,"prs_merged":0,"reviews":0,"issues_opened":0,"issues_closed":0,"releases":0,"notes":0,"manual":0,"features":0,"events":2},"headline":"11 commits sur 2 projets.","projects":[{"key":"momentum","label":"Momentum","short":"Momentum","color":"#8b5cf6","count":1,"weight":7,"kinds":{"commits":7}},{"key":"talkify","label":"Talkify","short":"Talkify","color":"#ec4899","count":1,"weight":4,"kinds":{"commits":4}}],"events":[{"id":"commits:2026-10-17:talkify-omarchy","source":"git","kind":"commits","action":"pushed","timestamp":"2026-10-17T16:07:29+02:00","date":"2026-10-17","title":"4 commits","detail":"","url":"https://github.com/InsaneArts/talkify-omarchy/commit/18c01d2cdb250b7a3cd871d0d6fda69f208dee30","repo":"talkify-omarchy","repo_url":"https://github.com/InsaneArts/talkify-omarchy","project":"talkify","private":false,"count":4,"search":"talkify-omarchy 4 commits fix(vocab): fold accents to ascii before the phonetic keys feat(trigger): a toggle mode, and no click can cancel a dictation feat(trigger): say which mode the daemon starts with fix(trigger): a toggle trigger keeps its mode across sessions","meta":{"commits":[{"sha":"d9bc27226a74dd60b5bd70460b1237c4bbd7ad0d","subject":"fix(vocab): fold accents to ASCII before the phonetic keys","url":"https://github.com/InsaneArts/talkify-omarchy/commit/d9bc27226a74dd60b5bd70460b1237c4bbd7ad0d","time":"2026-10-17T13:02:58+02:00","source":"git"},{"sha":"21d838c6f8a4b7260f267372e05e126e3d947cdb","subject":"feat(trigger): a toggle mode, and no click can cancel a dictation","url":"https://github.com/InsaneArts/talkify-omarchy/commit/21d838c6f8a4b7260f267372e05e126e3d947cdb","time":"2026-10-17T14:35:27+02:00","source":"git"},{"sha":"06cf92e75336df29262ff974b31113203a6c73b9","subject":"feat(trigger): say which mode the daemon starts with","url":"https://github.com/InsaneArts/talkify-omarchy/commit/06cf92e75336df29262ff974b31113203a6c73b9","time":"2026-10-17T15:57:02+02:00","source":"git"},{"sha":"18c01d2cdb250b7a3cd871d0d6fda69f208dee30","subject":"fix(trigger): a toggle trigger keeps its mode across sessions","url":"https://github.com/InsaneArts/talkify-omarchy/commit/18c01d2cdb250b7a3cd871d0d6fda69f208dee30","time":"2026-10-17T16:07:29+02:00","source":"git"}]}},{"id":"commits:2026-10-17:momentum","source":"git","kind":"commits","action":"pushed","timestamp":"2026-10-17T17:53:41+02:00","date":"2026-10-17","title":"7 commits","detail":"","url":"","repo":"momentum","repo_url":"","project":"momentum","private":false,"count":7,"search":"momentum 7 commits v0.5 : page okr repensée, hud de focus interactif v0.6 : réglages dans l'app (roue ⚙) et fermeture au clic extérieur v0.7 : focus libre, menu des tâches, pastille invocable et multi-écrans hud : le clic extérieur referme vraiment la modal et le menu hud : un voile sur les autres ecrans ne recoit rien, on passe par le focus page okr : un cercle qui se remplit au lieu des barres chronos : le temps est publie a la seconde, plus par pas de 6 s","meta":{"commits":[{"sha":"d9da6669e59c2c9ed5d9c74004d9f5b6c9867a87","subject":"v0.5 : page OKR repensée, HUD de focus interactif","url":"","time":"2026-10-17T10:35:25+02:00","source":"git"},{"sha":"80694ba4c40fb2668c83c5dcb1c417705bc61cac","subject":"v0.6 : réglages dans l'app (roue ⚙) et fermeture au clic extérieur","url":"","time":"2026-10-17T11:57:23+02:00","source":"git"},{"sha":"4c3791561b4e20fb1e595dd9b44dbb269fe195c2","subject":"v0.7 : focus libre, menu des tâches, pastille invocable et multi-écrans","url":"","time":"2026-10-17T13:44:04+02:00","source":"git"},{"sha":"9c43420b69c0cd0b142ea13632df98873ba7e9c4","subject":"HUD : le clic extérieur referme vraiment la modal et le menu","url":"","time":"2026-10-17T14:55:29+02:00","source":"git"},{"sha":"15153e0f41234b39c49954f3da1d6d91d03b00a5","subject":"HUD : un voile sur les autres ecrans ne recoit rien, on passe par le focus","url":"","time":"2026-10-17T17:08:40+02:00","source":"git"},{"sha":"b89669b7840c992f23359d61a2eba17f02447d7f","subject":"Page OKR : un cercle qui se remplit au lieu des barres","url":"","time":"2026-10-17T17:53:41+02:00","source":"git"},{"sha":"27ca0ab76662e9363c4c738af19873884a1fd7d6","subject":"Chronos : le temps est publie a la seconde, plus par pas de 6 s","url":"","time":"2026-10-17T17:53:41+02:00","source":"git"}]}}],"note":null},{"date":"2026-10-16","label":"vendredi 16 octobre 2026","short":"16 oct.","weekday":"vendredi","day":16,"month":"oct.","counts":{"commits":5,"prs_opened":0,"prs_merged":0,"reviews":0,"issues_opened":0,"issues_closed":0,"releases":0,"notes":0,"manual":0,"features":0,"events":1},"headline":"5 commits.","projects":[{"key":"momentum","label":"Momentum","short":"Momentum","color":"#8b5cf6","count":1,"weight":5,"kinds":{"commits":5}}],"events":[{"id":"commits:2026-10-16:momentum","source":"git","kind":"commits","action":"pushed","timestamp":"2026-10-16T16:10:07+02:00","date":"2026-10-16","title":"5 commits","detail":"","url":"","repo":"momentum","repo_url":"","project":"momentum","private":false,"count":5,"search":"momentum 5 commits momentum : moteur de momentum natif omarchy v0.2 : tableau de bord complet, habitudes, okr, revues, xp et quêtes sons arcade et animations de palier (v0.3) fx : les sons d'interface ne dépendent plus des animations v0.4 : sous-tâches validables, hud de focus, anneau animé dans la barre","meta":{"commits":[{"sha":"261c294db97c32862386e88e5f149bdcf63aab4b","subject":"Momentum : moteur de momentum natif Omarchy","url":"","time":"2026-10-16T13:36:33+02:00","source":"git"},{"sha":"73db7f59b61eb9b5cc0e5f281837fed9bf757904","subject":"v0.2 : tableau de bord complet, habitudes, OKR, revues, XP et quêtes","url":"","time":"2026-10-16T14:18:46+02:00","source":"git"},{"sha":"8ff8f4b61171fe0e4a97aa78310330610053fbf4","subject":"Sons arcade et animations de palier (v0.3)","url":"","time":"2026-10-16T15:40:33+02:00","source":"git"},{"sha":"2419bdaea13c5569a0d343a5b71972a3981a9adc","subject":"Fx : les sons d'interface ne dépendent plus des animations","url":"","time":"2026-10-16T15:41:34+02:00","source":"git"},{"sha":"bf09123b29681d7c1ce25cc297da7c21a302635e","subject":"v0.4 : sous-tâches validables, HUD de focus, anneau animé dans la barre","url":"","time":"2026-10-16T16:10:07+02:00","source":"git"}]}}],"note":null},{"date":"2026-09-22","label":"mardi 22 septembre 2026","short":"22 sept.","weekday":"mardi","day":22,"month":"sept.","counts":{"commits":11,"prs_opened":0,"prs_merged":0,"reviews":0,"issues_opened":0,"issues_closed":0,"releases":0,"notes":0,"manual":0,"features":0,"events":1},"headline":"11 commits.","projects":[{"key":"mnemosyne","label":"Mnemosyne","short":"Mnemosyne","color":"#10b981","count":1,"weight":11,"kinds":{"commits":11}}],"events":[{"id":"commits:2026-09-22:mnemosyne","source":"git","kind":"commits","action":"pushed","timestamp":"2026-09-22T22:23:11+02:00","date":"2026-09-22","title":"11 commits","detail":"","url":"","repo":"mnemosyne","repo_url":"","project":"mnemosyne","private":false,"count":11,"search":"mnemosyne 11 commits baseline: mnemosyne 0.1.0 avant pivot conseiller d'automatisation conseiller d'automatisation : moteur en graphes, épisodes, routines, fiches sourcées, reviews vue conseiller, réglages, témoin discret, guide et readme honnêtes grille goulot : postures, décisions délégables, clé opencode réutilisée, secrets chiffrés réglage mesuré sur données réelles : raisonnement coupé pour les épisodes, postures précisées installateur 0.2.0 construit sous le node d'electron, sans node 22 système lab note : raisonnement du modèle et tests hermétiques capteur sans fenêtre et lecture par l'api de screenpipe contexte vivant : mémoire apprise, notes, agents (orca, sessions claude), serveurs ssh faits rédigés sans pronom ; version 0.3.0 lab note : capteur sous windows et accès screenpipe","meta":{"commits":[{"sha":"ca3eef167649b16cc1a9e682eed092626a46292f","subject":"Baseline: Mnemosyne 0.1.0 avant pivot conseiller d'automatisation","url":"","time":"2026-09-22T19:57:44+02:00","source":"git"},{"sha":"77807dce087f57f3c577765405abf7a617b06556","subject":"Conseiller d'automatisation : moteur en graphes, épisodes, routines, fiches sourcées, reviews","url":"","time":"2026-09-22T20:21:30+02:00","source":"git"},{"sha":"13a0cebec268a1ce3a95f2beee89d224b3a32e24","subject":"Vue Conseiller, réglages, témoin discret, guide et README honnêtes","url":"","time":"2026-09-22T20:33:59+02:00","source":"git"},{"sha":"933455b89f2f51967535876002283f0d9e6fca47","subject":"Grille goulot : postures, décisions délégables, clé OpenCode réutilisée, secrets chiffrés","url":"","time":"2026-09-22T21:01:51+02:00","source":"git"},{"sha":"e46f5706cafbd16806a3f9e67eabbb8051c621de","subject":"Réglage mesuré sur données réelles : raisonnement coupé pour les épisodes, postures précisées","url":"","time":"2026-09-22T21:09:32+02:00","source":"git"},{"sha":"afa0e8600b7aaf6d704a4b1de08eb13e00473ad7","subject":"Installateur 0.2.0 construit sous le Node d'Electron, sans Node 22 système","url":"","time":"2026-09-22T21:16:08+02:00","source":"git"},{"sha":"cb8538a66d3c03073f9825b7f026ac11f3962f1e","subject":"Lab note : raisonnement du modèle et tests hermétiques","url":"","time":"2026-09-22T21:16:22+02:00","source":"git"},{"sha":"b2d2fd8e84d2750035e6601b1c1e4f0369aa4499","subject":"Capteur sans fenêtre et lecture par l'API de Screenpipe","url":"","time":"2026-09-22T21:51:43+02:00","source":"git"},{"sha":"e1998ed9a482afcca5ba1ec77c4614baaef08e08","subject":"Contexte vivant : mémoire apprise, notes, agents (Orca, sessions Claude), serveurs SSH","url":"","time":"2026-09-22T22:16:50+02:00","source":"git"},{"sha":"b812f6f0698265af0bd055a392b95c1fff1d1569","subject":"Faits rédigés sans pronom ; version 0.3.0","url":"","time":"2026-09-22T22:17:42+02:00","source":"git"},{"sha":"feb6784e44ef2f4ee7b205c56734a211d044332e","subject":"Lab note : capteur sous Windows et accès Screenpipe","url":"","time":"2026-09-22T22:23:11+02:00","source":"git"}]}}],"note":null}],"series":[{"date":"2026-09-22","label":"22 sept.","commits":11,"prs":0,"reviews":0,"manual":0,"notes":0,"total":11,"active":true},{"date":"2026-09-23","label":"23 sept.","commits":0,"prs":0,"reviews":0,"manual":0,"notes":0,"total":0,"active":false},{"date":"2026-09-24","label":"24 sept.","commits":0,"prs":0,"reviews":0,"manual":0,"notes":0,"total":0,"active":false},{"date":"2026-09-25","label":"25 sept.","commits":0,"prs":0,"reviews":0,"manual":0,"notes":0,"total":0,"active":false},{"date":"2026-09-26","label":"26 sept.","commits":0,"prs":0,"reviews":0,"manual":0,"notes":0,"total":0,"active":false},{"date":"2026-09-27","label":"27 sept.","commits":0,"prs":0,"reviews":0,"manual":0,"notes":0,"total":0,"active":false},{"date":"2026-09-28","label":"28 sept.","commits":0,"prs":0,"reviews":0,"manual":0,"notes":0,"total":0,"active":false},{"date":"2026-09-29","label":"29 sept.","commits":0,"prs":0,"reviews":0,"manual":0,"notes":0,"total":0,"active":false},{"date":"2026-09-30","label":"30 sept.","commits":0,"prs":0,"reviews":0,"manual":0,"notes":0,"total":0,"active":false},{"date":"2026-10-01","label":"1 oct.","commits":0,"prs":0,"reviews":0,"manual":0,"notes":0,"total":0,"active":false},{"date":"2026-10-02","label":"2 oct.","commits":0,"prs":0,"reviews":0,"manual":0,"notes":0,"total":0,"active":false},{"date":"2026-10-03","label":"3 oct.","commits":0,"prs":0,"reviews":0,"manual":0,"notes":0,"total":0,"active":false},{"date":"2026-10-04","label":"4 oct.","commits":0,"prs":0,"reviews":0,"manual":0,"notes":0,"total":0,"active":false},{"date":"2026-10-05","label":"5 oct.","commits":0,"prs":0,"reviews":0,"manual":0,"notes":0,"total":0,"active":false},{"date":"2026-10-06","label":"6 oct.","commits":0,"prs":0,"reviews":0,"manual":0,"notes":0,"total":0,"active":false},{"date":"2026-10-07","label":"7 oct.","commits":0,"prs":0,"reviews":0,"manual":0,"notes":0,"total":0,"active":false},{"date":"2026-10-08","label":"8 oct.","commits":0,"prs":0,"reviews":0,"manual":0,"notes":0,"total":0,"active":false},{"date":"2026-10-09","label":"9 oct.","commits":0,"prs":0,"reviews":0,"manual":0,"notes":0,"total":0,"active":false},{"date":"2026-10-10","label":"10 oct.","commits":0,"prs":0,"reviews":0,"manual":0,"notes":0,"total":0,"active":false},{"date":"2026-10-11","label":"11 oct.","commits":0,"prs":0,"reviews":0,"manual":0,"notes":0,"total":0,"active":false},{"date":"2026-10-12","label":"12 oct.","commits":0,"prs":0,"reviews":0,"manual":0,"notes":0,"total":0,"active":false},{"date":"2026-10-13","label":"13 oct.","commits":0,"prs":0,"reviews":0,"manual":0,"notes":0,"total":0,"active":false},{"date":"2026-10-14","label":"14 oct.","commits":0,"prs":0,"reviews":0,"manual":0,"notes":0,"total":0,"active":false},{"date":"2026-10-15","label":"15 oct.","commits":0,"prs":0,"reviews":0,"manual":0,"notes":0,"total":0,"active":false},{"date":"2026-10-16","label":"16 oct.","commits":5,"prs":0,"reviews":0,"manual":0,"notes":0,"total":5,"active":true},{"date":"2026-10-17","label":"17 oct.","commits":11,"prs":0,"reviews":0,"manual":0,"notes":0,"total":11,"active":true},{"date":"2026-10-18","label":"18 oct.","commits":4,"prs":0,"reviews":0,"manual":0,"notes":0,"total":4,"active":true},{"date":"2026-10-19","label":"19 oct.","commits":5,"prs":0,"reviews":0,"manual":0,"notes":0,"total":5,"active":true},{"date":"2026-10-20","label":"20 oct.","commits":7,"prs":0,"reviews":0,"manual":0,"notes":0,"total":7,"active":true},{"date":"2026-10-21","label":"21 oct.","commits":1,"prs":0,"reviews":0,"manual":1,"notes":0,"total":2,"active":true}]}</script>
+<script>
+/* ------------------------------------------------------------------ */
+/* data + state                                                        */
+/* ------------------------------------------------------------------ */
+const DATA = JSON.parse(document.getElementById('worklog-data').textContent);
+const $ = (sel, root = document) => root.querySelector(sel);
+const $$ = (sel, root = document) => Array.from(root.querySelectorAll(sel));
+const esc = (value) => String(value ?? '').replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+const safeUrl = (value) => {
+  const url = String(value || '').trim();
+  return /^(https?:\/\/|file:\/\/)/i.test(url) ? url : '';
+};
+const safeColor = (value) => /^#[0-9a-f]{3,8}$/i.test(String(value || '')) ? value : '#e0a458';
+const PROJECTS = new Map((DATA.projects || []).map((p) => [p.key, p]));
+const KIND_LABELS = { pr: 'PR', commits: 'Commits', review: 'Revues', issue: 'Issues', release: 'Releases', manual: 'Tâches', note: 'Notes' };
+const KIND_ORDER = ['pr', 'commits', 'review', 'issue', 'release', 'manual', 'note'];
+const DAY_MS = 86400000;
+const today = startOfDay(new Date(DATA.meta.generated_at));
+const state = {
+  query: '',
+  projects: new Set(),
+  kinds: new Set(),
+  range: Number(DATA.meta.default_range_days || 30),
+};
+
+function startOfDay(d) { return new Date(d.getFullYear(), d.getMonth(), d.getDate()); }
+function parseDay(value) { const [y, m, d] = String(value).split('-').map(Number); return new Date(y, m - 1, d); }
+function addDays(d, n) { const copy = new Date(d); copy.setDate(copy.getDate() + n); return copy; }
+function isoDay(d) { return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`; }
+function dateCutoff() { return state.range > 0 ? addDays(today, -(state.range - 1)) : null; }
+function inRange(dayStr) { const cutoff = dateCutoff(); return !cutoff || parseDay(dayStr) >= cutoff; }
+function fmtShort(dayStr) { return parseDay(dayStr).toLocaleDateString('fr-BE', { day: 'numeric', month: 'short' }); }
+function fmtTime(ts) {
+  const date = new Date(ts);
+  if (Number.isNaN(date.getTime())) return '';
+  return date.toLocaleTimeString('fr-BE', { hour: '2-digit', minute: '2-digit' });
+}
+function plural(n, one, many) { return `${n} ${n <= 1 ? one : (many || one + 's')}`; }
+function hasFilters() { return Boolean(state.query.trim()) || state.projects.size > 0 || state.kinds.size > 0; }
+function projectOf(key) {
+  return PROJECTS.get(key) || { key, label: key, short: key, color: '#94a3b8' };
+}
+function projectLabel(key) { return projectOf(key).short || projectOf(key).label || key; }
+function repoShort(repo) { return String(repo || '').split('/').filter(Boolean).pop() || ''; }
+function kindOf(event) { return event.kind; }
+function eventMatches(event) {
+  const q = state.query.trim().toLowerCase();
+  if (q) {
+    const haystack = `${event.search || ''} ${event.title || ''} ${event.detail || ''} ${event.repo || ''} ${projectLabel(event.project)}`.toLowerCase();
+    if (!haystack.includes(q)) return false;
+  }
+  if (state.projects.size && !state.projects.has(event.project)) return false;
+  if (state.kinds.size && !state.kinds.has(event.kind)) return false;
+  return true;
+}
+function noteMatchesQuery(note) {
+  if (!note) return false;
+  const q = state.query.trim().toLowerCase();
+  if (!q) return true;
+  return `${note.title || ''} ${note.detail || ''} ${note.meta?.excerpt || ''}`.toLowerCase().includes(q);
+}
+function noteMatches(note) {
+  if (!note) return false;
+  if (state.projects.size) return false;
+  if (state.kinds.size && !state.kinds.has('note')) return false;
+  return noteMatchesQuery(note);
+}
+function filteredDays() {
+  return (DATA.days || [])
+    .filter((day) => inRange(day.date))
+    .map((day) => {
+      const events = day.events.filter((event) => event.kind !== 'note' && eventMatches(event));
+      const note = noteMatches(day.note) ? day.note : null;
+      if (!events.length && !note) return null;
+      return { ...day, events, note };
+    })
+    .filter(Boolean);
+}
+function countsFor(events, note = null) {
+  const c = { commits: 0, prs_merged: 0, prs_opened: 0, reviews: 0, issues_opened: 0, issues_closed: 0, releases: 0, notes: 0, manual: 0 };
+  for (const event of events) {
+    if (event.kind === 'commits') c.commits += Number(event.count || 1);
+    else if (event.kind === 'pr' && event.action === 'opened') c.prs_opened += 1;
+    else if (event.kind === 'pr' && event.action === 'merged') {
+      c.prs_merged += 1;
+      if (event.meta?.also_opened) c.prs_opened += 1;
+    } else if (event.kind === 'review') c.reviews += 1;
+    else if (event.kind === 'issue' && event.action === 'opened') c.issues_opened += 1;
+    else if (event.kind === 'issue' && event.action === 'closed') c.issues_closed += 1;
+    else if (event.kind === 'release') c.releases += 1;
+    else if (event.kind === 'manual') c.manual += 1;
+  }
+  if (note) c.notes += 1;
+  return c;
+}
+function headlineFor(c, projectCount) {
+  const parts = [];
+  if (c.prs_merged) parts.push(plural(c.prs_merged, 'PR fusionnée', 'PR fusionnées'));
+  if (c.prs_opened) parts.push(plural(c.prs_opened, 'PR ouverte', 'PR ouvertes'));
+  if (c.reviews) parts.push(plural(c.reviews, 'revue', 'revues'));
+  if (c.commits) parts.push(plural(c.commits, 'commit', 'commits'));
+  if (c.issues_closed) parts.push(plural(c.issues_closed, 'issue fermée', 'issues fermées'));
+  if (c.releases) parts.push(plural(c.releases, 'release', 'releases'));
+  if (c.manual) parts.push(plural(c.manual, 'tâche', 'tâches'));
+  if (c.notes) parts.push(plural(c.notes, 'note', 'notes'));
+  if (!parts.length) return 'Journée calme.';
+  let text = parts.length === 1 ? parts[0] : `${parts.slice(0, -1).join(', ')} et ${parts[parts.length - 1]}`;
+  if (projectCount > 1) text += ` sur ${projectCount} projets`;
+  return text.charAt(0).toUpperCase() + text.slice(1) + '.';
+}
+function groupByProject(events) {
+  const groups = new Map();
+  for (const event of events) {
+    if (event.kind === 'note') continue;
+    if (!groups.has(event.project)) {
+      groups.set(event.project, { key: event.project, ...projectOf(event.project), events: [] });
+    }
+    groups.get(event.project).events.push(event);
+  }
+  return Array.from(groups.values()).sort((a, b) => weight(b.events) - weight(a.events) || a.label.localeCompare(b.label));
+}
+function weight(events) {
+  return events.reduce((sum, e) => sum + (e.kind === 'commits' ? Number(e.count || 1) : e.kind === 'pr' ? 3 : 1), 0);
+}
+function eventsInRange() {
+  return (DATA.days || []).filter((day) => inRange(day.date)).flatMap((day) => day.events).filter(eventMatches);
+}
+function allEventsForStats() {
+  // applique la période + la recherche + les types, mais pas le filtre projet
+  return (DATA.days || []).filter((day) => inRange(day.date)).flatMap((day) => day.events).filter((event) => {
+    const q = state.query.trim().toLowerCase();
+    if (q) {
+      const haystack = `${event.search || ''} ${event.title || ''} ${event.repo || ''} ${projectLabel(event.project)}`.toLowerCase();
+      if (!haystack.includes(q)) return false;
+    }
+    if (state.kinds.size && !state.kinds.has(event.kind)) return false;
+    return true;
+  });
+}
+
+/* ------------------------------------------------------------------ */
+/* kpi                                                                 */
+/* ------------------------------------------------------------------ */
+function renderKpis(days) {
+  const events = days.flatMap((day) => day.events);
+  const counts = countsFor(events);
+  counts.notes = days.filter((day) => day.note).length;
+  const projects = new Set(events.map((event) => event.project).filter(Boolean));
+  const repos = new Set(events.map((event) => event.repo).filter(Boolean));
+  const issues = events.filter((event) => event.kind === 'issue' && event.action === 'closed').length;
+  const cards = [
+    { label: 'PR fusionnées', value: counts.prs_merged, sub: `${counts.prs_opened} ouverte${counts.prs_opened > 1 ? 's' : ''} sur la période`, color: 'var(--green)' },
+    { label: 'Commits', value: counts.commits, sub: `sur ${repos.size} dépôt${repos.size > 1 ? 's' : ''}`, color: 'var(--accent)' },
+    { label: 'Revues', value: counts.reviews, sub: `${issues} issue${issues > 1 ? 's' : ''} fermée${issues > 1 ? 's' : ''}`, color: 'var(--violet)' },
+    { label: 'Projets', value: projects.size, sub: `${days.length} jour${days.length > 1 ? 's' : ''} actif${days.length > 1 ? 's' : ''}`, color: 'var(--pink)' },
+  ];
+  $('#kpis').innerHTML = cards.map((card) => `
+    <article class="kpi" style="--c:${card.color}">
+      <div class="k-label">${esc(card.label)}</div>
+      <div class="k-value">${card.value}</div>
+      <div class="k-sub">${esc(card.sub)}</div>
+    </article>`).join('');
+  const first = days[days.length - 1];
+  const last = days[0];
+  $('#period-label').textContent = first ? `${fmtShort(first.date)} → ${fmtShort(last.date)}` : 'aucune activité sur la période';
+}
+
+/* ------------------------------------------------------------------ */
+/* chart                                                               */
+/* ------------------------------------------------------------------ */
+function renderChart(days) {
+  const byDate = new Map(days.map((day) => [day.date, day]));
+  const series = (DATA.series || []).slice(-30);
+  const rows = series.map((item) => {
+    const day = byDate.get(item.date);
+    const counts = day ? countsFor(day.events, day.note) : { commits: 0, prs_merged: 0, prs_opened: 0, reviews: 0, manual: 0, notes: 0 };
+    const prs = counts.prs_merged + counts.prs_opened;
+    const total = counts.commits + prs * 2 + counts.reviews + counts.manual + counts.notes;
+    return { ...item, counts, total };
+  });
+  const max = Math.max(1, ...rows.map((row) => row.total));
+  $('#chart').innerHTML = rows.map((row) => {
+    const c = row.counts;
+    const height = row.total ? Math.max(4, (row.total / max) * 100) : 0;
+    const segments = [
+      ['commits', c.commits],
+      ['prs', c.prs_merged + c.prs_opened],
+      ['reviews', c.reviews],
+      ['manual', c.manual],
+      ['notes', c.notes],
+    ].filter(([, value]) => value > 0);
+    const segmentHtml = segments.map(([kind, value]) =>
+      `<span class="seg ${kind}" style="height:${(value / row.total) * height}%"></span>`).join('');
+    const label = [
+      `${c.commits} commit${c.commits > 1 ? 's' : ''}`,
+      `${c.prs_merged} PR fusionnée${c.prs_merged > 1 ? 's' : ''}`,
+      `${c.prs_opened} PR ouverte${c.prs_opened > 1 ? 's' : ''}`,
+      `${c.reviews} revue${c.reviews > 1 ? 's' : ''}`,
+      `${c.manual} tâche${c.manual > 1 ? 's' : ''}`,
+      `${c.notes} note${c.notes > 1 ? 's' : ''}`,
+    ].filter((part) => !part.startsWith('0 ')).join(' · ');
+    return `<button type="button" class="bar ${row.total ? '' : 'no-activity'}" data-date="${row.date}" title="${esc(fmtShort(row.date))} — ${esc(label || 'aucune activité')}" aria-label="${esc(fmtShort(row.date))} : ${esc(label || 'aucune activité')}">${segmentHtml}</button>`;
+  }).join('');
+  $('#chart-labels').innerHTML = rows.map((row, index) =>
+    `<span>${index % 5 === 0 || index === rows.length - 1 ? esc(fmtShort(row.date)) : ''}</span>`).join('');
+}
+
+/* ------------------------------------------------------------------ */
+/* projects                                                            */
+/* ------------------------------------------------------------------ */
+function sparkFor(projectKey) {
+  const start = addDays(today, -13);
+  const values = [];
+  for (let i = 0; i < 14; i += 1) {
+    const key = isoDay(addDays(start, i));
+    const day = (DATA.days || []).find((item) => item.date === key);
+    const value = day ? day.events.filter((event) => event.project === projectKey).reduce((sum, event) => sum + (event.kind === 'commits' ? Number(event.count || 1) : 1), 0) : 0;
+    values.push(value);
+  }
+  const max = Math.max(1, ...values);
+  return values.map((value) => `<i style="height:${Math.max(2, (value / max) * 100)}%"></i>`).join('');
+}
+function renderProjects() {
+  const events = allEventsForStats();
+  const projects = (DATA.projects || []).map((project) => {
+    const projectEvents = events.filter((event) => event.project === project.key);
+    const counts = countsFor(projectEvents);
+    return { ...project, counts, eventCount: projectEvents.length, last: projectEvents.reduce((max, event) => event.date > max ? event.date : max, '') };
+  }).filter((project) => project.eventCount > 0).sort((a, b) => {
+    const aWeight = a.counts.commits + a.counts.prs_merged * 3 + a.counts.reviews + a.counts.manual;
+    const bWeight = b.counts.commits + b.counts.prs_merged * 3 + b.counts.reviews + b.counts.manual;
+    return bWeight - aWeight || b.eventCount - a.eventCount;
+  });
+  const active = projects.filter((project) => state.projects.size === 0 || state.projects.has(project.key));
+  $('#projects-count').textContent = `${projects.length} actif${projects.length > 1 ? 's' : ''}`;
+  if (!projects.length) {
+    $('#project-cards').innerHTML = '<p class="sub" style="color:var(--faint);font-size:12px">Aucun projet sur cette période.</p>';
+    return;
+  }
+  $('#project-cards').innerHTML = projects.map((project) => {
+    const stats = [
+      project.counts.prs_merged ? plural(project.counts.prs_merged, 'PR', 'PR') : '',
+      project.counts.commits ? plural(project.counts.commits, 'commit') : '',
+      project.counts.reviews ? plural(project.counts.reviews, 'revue') : '',
+      project.counts.manual ? plural(project.counts.manual, 'tâche') : '',
+    ].filter(Boolean).slice(0, 3).join(' · ') || 'activité';
+    return `<button type="button" class="project-card ${state.projects.has(project.key) ? 'active' : ''}" data-project="${esc(project.key)}" aria-pressed="${state.projects.has(project.key)}" style="--c:${safeColor(project.color)}">
+      <span class="p-name"><span class="p-dot"></span>${esc(project.short || project.label)}</span>
+      <span class="p-spark">${sparkFor(project.key)}</span>
+      <span class="p-stats">${esc(stats)}</span>
+      <span class="p-last">${project.last ? `dernier : ${esc(fmtShort(project.last))}` : ''}</span>
+    </button>`;
+  }).join('');
+}
+
+/* ------------------------------------------------------------------ */
+/* highlights                                                          */
+/* ------------------------------------------------------------------ */
+function renderHighlights(days) {
+  const events = days.flatMap((day) => day.events)
+    .filter((event) => event.kind === 'release' || (event.kind === 'pr' && event.action === 'merged') || (event.kind === 'manual' && ['feature', 'ship'].includes(event.action)))
+    .sort((a, b) => String(b.timestamp).localeCompare(String(a.timestamp)));
+  const section = $('#highlights-section');
+  if (!events.length) {
+    section.hidden = true;
+    return;
+  }
+  section.hidden = false;
+  $('#highlights-count').textContent = `${events.length} livraison${events.length > 1 ? 's' : ''} sur la période`;
+  $('#highlights').innerHTML = events.slice(0, 8).map((event) => {
+    const kind = event.kind === 'pr' ? 'PR fusionnée' : event.kind === 'release' ? 'Release' : event.action === 'ship' ? 'Livraison' : 'Feature';
+    const title = event.title || '(sans titre)';
+    const url = safeUrl(event.url);
+    const inner = `<span class="h-kind">${esc(kind)}</span><span class="h-title">${esc(title)}</span><span class="h-meta"><span>${esc(projectLabel(event.project))}</span><span>${esc(fmtShort(event.date))}</span></span>`;
+    return url ? `<a class="highlight" href="${esc(url)}" target="_blank" rel="noopener">${inner}</a>` : `<div class="highlight">${inner}</div>`;
+  }).join('');
+}
+
+/* ------------------------------------------------------------------ */
+/* timeline                                                            */
+/* ------------------------------------------------------------------ */
+function dayChips(counts) {
+  const chips = [];
+  if (counts.prs_merged) chips.push(`<span class="mini merged"><b>${counts.prs_merged}</b> PR fusionnée${counts.prs_merged > 1 ? 's' : ''}</span>`);
+  if (counts.prs_opened) chips.push(`<span class="mini pr"><b>${counts.prs_opened}</b> PR ouverte${counts.prs_opened > 1 ? 's' : ''}</span>`);
+  if (counts.commits) chips.push(`<span class="mini commits"><b>${counts.commits}</b> commit${counts.commits > 1 ? 's' : ''}</span>`);
+  if (counts.reviews) chips.push(`<span class="mini review"><b>${counts.reviews}</b> revue${counts.reviews > 1 ? 's' : ''}</span>`);
+  if (counts.releases) chips.push(`<span class="mini"><b>${counts.releases}</b> release${counts.releases > 1 ? 's' : ''}</span>`);
+  if (counts.manual) chips.push(`<span class="mini manual"><b>${counts.manual}</b> tâche${counts.manual > 1 ? 's' : ''}</span>`);
+  if (counts.notes) chips.push(`<span class="mini note"><b>${counts.notes}</b> note${counts.notes > 1 ? 's' : ''}</span>`);
+  return chips.join('');
+}
+function renderDay(day, index) {
+  const counts = countsFor(day.events, day.note);
+  const groups = groupByProject(day.events);
+  const open = index < 2 || hasFilters();
+  const groupsOpen = index === 0 || hasFilters();
+  const projectLine = groups.map((group) =>
+    `<span class="mini-project"><i style="background:${safeColor(group.color)}"></i>${esc(group.short || group.label)}</span>`).join('');
+  return `<details class="day-card" data-day="${esc(day.date)}" ${open ? 'open' : ''}>
+    <summary>
+      <div class="date-block">
+        <span class="weekday">${esc(day.weekday)}</span>
+        <span class="daynum">${esc(day.day)}</span>
+        <span class="month">${esc(day.month)}</span>
+      </div>
+      <div class="day-main">
+        <div class="day-head">
+          <h3>${esc(day.label)}</h3>
+          <div class="day-chips">${dayChips(counts)}</div>
+        </div>
+        <p class="day-headline">${esc(headlineFor(counts, groups.length))}</p>
+        ${projectLine ? `<div class="day-projects-line">${projectLine}</div>` : ''}
+      </div>
+      <span class="day-toggle" aria-hidden="true">⌄</span>
+    </summary>
+    <div class="day-body">
+      <div class="day-actions">
+        <button type="button" class="btn" data-copy-day="${esc(day.date)}">Copier le résumé</button>
+        ${DATA.meta.share ? '' : `<a class="btn" href="days/${esc(day.date)}.md">Markdown du jour</a>`}
+      </div>
+      ${groups.map((group) => renderProjectGroup(group, groupsOpen)).join('')}
+      ${day.note ? renderNote(day.note) : ''}
+    </div>
+  </details>`;
+}
+function renderProjectGroup(group, open) {
+  const counts = countsFor(group.events);
+  const stats = [
+    counts.prs_merged ? `${counts.prs_merged} PR` : '',
+    counts.commits ? `${counts.commits} commit${counts.commits > 1 ? 's' : ''}` : '',
+    counts.reviews ? `${counts.reviews} revue${counts.reviews > 1 ? 's' : ''}` : '',
+    counts.manual ? `${counts.manual} tâche${counts.manual > 1 ? 's' : ''}` : '',
+  ].filter(Boolean).join(' · ');
+  return `<details class="project-group" ${open ? 'open' : ''} style="--c:${safeColor(group.color)}">
+    <summary>
+      <span class="pg-dot"></span>
+      <span class="pg-name">${esc(group.short || group.label)}</span>
+      <span class="pg-stats">${esc(stats)}</span>
+      <span class="pg-chevron">⌄</span>
+    </summary>
+    <div class="pg-body">${group.events.map(renderEvent).join('')}</div>
+  </details>`;
+}
+function renderEvent(event) {
+  if (event.kind === 'commits') return renderCommits(event);
+  const url = safeUrl(event.url);
+  const title = esc(event.title || '(sans titre)');
+  let badge = '';
+  let meta = [];
+  let detail = '';
+  if (event.kind === 'pr') {
+    const merged = event.action === 'merged';
+    badge = `<span class="badge ${merged ? 'merged' : 'pr'}">${merged ? 'Fusionnée' : 'PR ouverte'}</span>`;
+    meta.push(`PR #${esc(event.meta?.number || '')}`);
+    if (event.meta?.additions) meta.push(`<span class="add">+${esc(event.meta.additions)}</span>`);
+    if (event.meta?.deletions) meta.push(`<span class="del">−${esc(event.meta.deletions)}</span>`);
+    if (event.meta?.merged_by && merged) meta.push(`par ${esc(event.meta.merged_by)}`);
+  } else if (event.kind === 'review') {
+    const state = event.action || 'commented';
+    const label = state === 'approved' ? 'Approuvée' : state === 'changes_requested' ? 'Modifs' : 'Revue';
+    badge = `<span class="badge review">${label}</span>`;
+    meta.push(`PR #${esc(event.meta?.number || '')}`);
+    if (event.detail) detail = `<p class="event-detail">${esc(event.detail.slice(0, 260))}</p>`;
+  } else if (event.kind === 'issue') {
+    badge = `<span class="badge issue">${event.action === 'closed' ? 'Issue fermée' : 'Issue'}</span>`;
+    meta.push(`#${esc(event.meta?.number || '')}`);
+  } else if (event.kind === 'release') {
+    badge = `<span class="badge release">Release</span>`;
+    if (event.meta?.tag) meta.push(esc(event.meta.tag));
+  } else if (event.kind === 'manual') {
+    badge = `<span class="badge manual">${esc(event.meta?.kind_label || 'Tâche')}</span>`;
+    if (event.detail) detail = `<p class="event-detail">${esc(event.detail.slice(0, 320))}</p>`;
+  } else {
+    badge = `<span class="badge">${esc(event.kind)}</span>`;
+  }
+  meta.unshift(`<span class="repo">${esc(repoShort(event.repo))}</span>`);
+  if (fmtTime(event.timestamp)) meta.push(esc(fmtTime(event.timestamp)));
+  if (event.private) meta.push('<span class="lock" title="Dépôt privé">privé</span>');
+  return `<div class="event">
+    ${badge}
+    <div class="event-main">
+      ${url ? `<a class="event-title" href="${esc(url)}" target="_blank" rel="noopener">${title}</a>` : `<span class="event-title">${title}</span>`}
+      ${detail}
+      <div class="event-meta">${meta.join('<span class="sep">·</span>')}</div>
+    </div>
+    ${url ? `<a class="event-link" href="${esc(url)}" target="_blank" rel="noopener" aria-label="Ouvrir">↗</a>` : '<span></span>'}
+  </div>`;
+}
+function renderCommits(event) {
+  const commits = event.meta?.commits || [];
+  if (event.count <= 1 && commits.length) {
+    const commit = commits[0];
+    const url = safeUrl(commit.url);
+    return `<div class="event">
+      <span class="badge commits">Commit</span>
+      <div class="event-main">
+        ${url ? `<a class="event-title" href="${esc(url)}" target="_blank" rel="noopener">${esc(commit.subject)}</a>` : `<span class="event-title">${esc(commit.subject)}</span>`}
+        <div class="event-meta"><span class="repo">${esc(repoShort(event.repo))}</span><span class="sep">·</span><span class="sha">${esc((commit.sha || '').slice(0, 7))}</span><span class="sep">·</span>${esc(fmtTime(commit.time || event.timestamp))}${event.private ? '<span class="sep">·</span><span class="lock">privé</span>' : ''}</div>
+      </div>
+      ${url ? `<a class="event-link" href="${esc(url)}" target="_blank" rel="noopener" aria-label="Ouvrir">↗</a>` : '<span></span>'}
+    </div>`;
+  }
+  const shown = commits.slice(0, 80);
+  return `<details class="commit-group">
+    <summary>
+      <span class="badge commits">${event.count} commit${event.count > 1 ? 's' : ''}</span>
+      <span class="commit-repo">${esc(repoShort(event.repo))}</span>
+      ${event.private ? '<span class="lock">privé</span>' : ''}
+      <span class="commit-more">voir la liste ⌄</span>
+    </summary>
+    <ul class="commit-list">
+      ${shown.map((commit) => {
+        const url = safeUrl(commit.url);
+        return `<li><span class="sha">${esc((commit.sha || '').slice(0, 7))}</span><span>${url ? `<a href="${esc(url)}" target="_blank" rel="noopener">${esc(commit.subject)}</a>` : esc(commit.subject)}</span></li>`;
+      }).join('')}
+      ${commits.length > shown.length ? `<li><span class="sha">…</span><span>et ${commits.length - shown.length} autres</span></li>` : ''}
+    </ul>
+  </details>`;
+}
+function renderNote(note) {
+  const text = note.detail || note.meta?.excerpt || '';
+  const short = text.length > 320 ? `${text.slice(0, 320).trim()}…` : text;
+  const url = safeUrl(note.url);
+  return `<div class="note-block">
+    <div class="note-head">
+      <span class="badge note">Note personnelle</span>
+      <span class="note-title">${esc(note.title || 'Note du jour')}</span>
+      <span class="note-local">${note.meta?.redacted ? 'secrets masqués · locale' : 'locale uniquement'}</span>
+    </div>
+    <div class="note-text">${esc(short)}</div>
+    <div class="note-text" style="font-size:10.5px;color:var(--faint);margin-top:5px">Les clés et mots de passe sont masqués automatiquement. Cette note n'apparaît jamais dans la version partagée.</div>
+    ${text.length > short.length ? `<details class="note-more"><summary>Lire la suite</summary><div class="note-text">${esc(text)}</div></details>` : ''}
+    <div class="note-actions">
+      ${url ? `<a class="btn" href="${esc(url)}" target="_blank" rel="noopener">Ouvrir la note</a>` : ''}
+      <button type="button" class="btn" data-copy-path="${esc(note.meta?.path || '')}">Copier le chemin</button>
+    </div>
+  </div>`;
+}
+
+/* ------------------------------------------------------------------ */
+/* filters                                                             */
+/* ------------------------------------------------------------------ */
+function renderFilters() {
+  const events = allEventsForStats();
+  const projects = (DATA.projects || []).filter((project) => events.some((event) => event.project === project.key));
+  const allActive = state.projects.size === 0;
+  $('#project-filters').innerHTML = [
+    `<button type="button" class="chip ${allActive ? 'active' : ''}" data-project="" aria-pressed="${allActive}">Tous</button>`,
+    ...projects.map((project) => {
+      const active = state.projects.has(project.key);
+      return `<button type="button" class="chip ${active ? 'active' : ''}" data-project="${esc(project.key)}" aria-pressed="${active}" style="--c:${safeColor(project.color)}"><span class="c-dot"></span>${esc(project.short || project.label)}</button>`;
+    }),
+  ].join('');
+
+  const kindCounts = new Map();
+  for (const event of events) {
+    const delta = event.kind === 'commits' ? Number(event.count || 1) : 1;
+    kindCounts.set(event.kind, (kindCounts.get(event.kind) || 0) + delta);
+  }
+  const noteCount = (DATA.days || []).filter((day) => inRange(day.date) && noteMatchesQuery(day.note)).length;
+  if (noteCount) kindCounts.set('note', noteCount);
+  const kinds = KIND_ORDER.filter((kind) => kindCounts.get(kind));
+  $('#kind-filters').innerHTML = kinds.map((kind) => {
+    const active = state.kinds.has(kind);
+    return `<button type="button" class="chip ${active ? 'active' : ''}" data-kind="${kind}" aria-pressed="${active}">${esc(KIND_LABELS[kind] || kind)} <span class="count">${kindCounts.get(kind)}</span></button>`;
+  }).join('');
+
+  const rangeSelect = $('#range');
+  if (String(state.range) !== rangeSelect.value) rangeSelect.value = String(state.range);
+  const search = $('#search');
+  if (search.value !== state.query) search.value = state.query;
+  $('#clear-filters').hidden = !hasFilters();
+}
+
+/* ------------------------------------------------------------------ */
+/* render                                                              */
+/* ------------------------------------------------------------------ */
+function render() {
+  const days = filteredDays();
+  renderKpis(days);
+  renderChart(days);
+  renderProjects();
+  renderHighlights(days);
+  renderFilters();
+  renderTimeline(days);
+}
+function renderTimeline(days) {
+  const timeline = $('#timeline');
+  const empty = $('#empty');
+  if (!days.length) {
+    timeline.innerHTML = '';
+    empty.hidden = false;
+    $('#results-count').textContent = '0 jour';
+    return;
+  }
+  empty.hidden = true;
+  timeline.innerHTML = days.map(renderDay).join('');
+  const events = days.reduce((sum, day) => sum + day.events.length + (day.note ? 1 : 0), 0);
+  const commits = days.reduce((sum, day) => sum + countsFor(day.events, day.note).commits, 0);
+  $('#results-count').textContent = `${days.length} jour${days.length > 1 ? 's' : ''} · ${events} événement${events > 1 ? 's' : ''}${commits ? ` · ${commits} commits` : ''}`;
+}
+
+/* ------------------------------------------------------------------ */
+/* warnings + toast                                                    */
+/* ------------------------------------------------------------------ */
+function renderWarnings() {
+  const messages = [];
+  const github = DATA.meta.sources?.github;
+  if (github && github.status && github.status !== 'ok' && github.status !== 'disabled') {
+    messages.push(DATA.meta.share
+      ? `<b>Données GitHub indisponibles.</b> Cette version présente uniquement l'activité enregistrée localement.`
+      : `<b>GitHub n'est pas connecté.</b> Les données GitHub existantes sont conservées. Lance <code>gh auth login -h github.com</code> puis <code>worklog sync</code>.`);
+  }
+  if (github?.errors?.length) {
+    messages.push(DATA.meta.share
+      ? `<b>Certains dépôts n'ont pas pu être lus.</b> Les données précédentes sont conservées.`
+      : `<b>${github.errors.length} dépôt(s) GitHub n'ont pas pu être lus.</b> Les données précédentes sont conservées pour ces dépôts.`);
+  }
+  $('#source-warn').innerHTML = messages.map((message) => `<div class="warn"><span>▲</span><div>${message}</div></div>`).join('');
+}
+let toastTimer = null;
+function showToast(message) {
+  const toast = $('#toast');
+  toast.textContent = message;
+  toast.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => toast.classList.remove('show'), 2200);
+}
+function copyText(text) {
+  const fallback = () => {
+    const area = document.createElement('textarea');
+    area.value = text;
+    area.style.position = 'fixed';
+    area.style.opacity = '0';
+    document.body.appendChild(area);
+    area.select();
+    try { document.execCommand('copy'); } catch (error) { /* ignore */ }
+    area.remove();
+  };
+  if (navigator.clipboard && window.isSecureContext) {
+    navigator.clipboard.writeText(text).catch(fallback);
+  } else {
+    fallback();
+  }
+  showToast('Copié');
+}
+function copyDay(date) {
+  const day = (DATA.days || []).find((item) => item.date === date);
+  if (!day) return;
+  const counts = countsFor(day.events, day.note);
+  const groups = groupByProject(day.events);
+  const lines = [`${day.label} — ${headlineFor(counts, groups.length)}`, ''];
+  for (const group of groups) {
+    lines.push(group.label);
+    for (const event of group.events) {
+      if (event.kind === 'commits') {
+        lines.push(`- ${event.count} commits · ${event.repo}`);
+        for (const commit of (event.meta?.commits || []).slice(0, 10)) {
+          lines.push(`  - ${commit.subject}${commit.url ? ` — ${commit.url}` : ''}`);
+        }
+      } else {
+        lines.push(`- ${event.title}${event.url ? ` — ${event.url}` : ''}`);
+      }
+    }
+    lines.push('');
+  }
+  if (day.note) lines.push(`Note : ${day.note.title}`, day.note.meta?.path || day.note.url || '');
+  copyText(lines.join('\n'));
+}
+function exportMarkdown() {
+  const days = filteredDays();
+  const lines = [`# Journal de travail`, '', `_${DATA.meta.identity?.name || ''} · ${DATA.meta.generated_label}_`, ''];
+  for (const day of days) {
+    lines.push(`## ${day.label}`, '', `**${headlineFor(countsFor(day.events, day.note), groupByProject(day.events).length)}**`, '');
+    for (const group of groupByProject(day.events)) {
+      lines.push(`### ${group.label}`, '');
+      for (const event of group.events) {
+        if (event.kind === 'commits') {
+          lines.push(`- **${event.count} commits** · ${event.repo}`);
+          for (const commit of (event.meta?.commits || []).slice(0, 30)) {
+            lines.push(`  - ${commit.subject}${commit.url ? ` — ${commit.url}` : ''}`);
+          }
+        } else {
+          const label = event.kind === 'pr' ? `PR ${event.action === 'merged' ? 'fusionnée' : 'ouverte'}` : event.kind;
+          lines.push(`- **${label}** · ${event.title}${event.url ? ` — ${event.url}` : ''}`);
+        }
+      }
+      lines.push('');
+    }
+    if (day.note) lines.push('### Note du jour', '', day.note.detail || day.note.meta?.excerpt || '', '');
+  }
+  const blob = new Blob([lines.join('\n')], { type: 'text/markdown;charset=utf-8' });
+  const link = document.createElement('a');
+  link.href = URL.createObjectURL(blob);
+  link.download = `journal-worklog-${isoDay(today)}.md`;
+  document.body.appendChild(link);
+  link.click();
+  link.remove();
+  setTimeout(() => URL.revokeObjectURL(link.href), 1000);
+  showToast('Markdown exporté');
+}
+function focusDay(date) {
+  let element = document.querySelector(`[data-day="${date}"]`);
+  if (!element) {
+    state.query = '';
+    state.projects.clear();
+    state.kinds.clear();
+    state.range = 0;
+    render();
+    element = document.querySelector(`[data-day="${date}"]`);
+  }
+  if (!element) return;
+  element.open = true;
+  element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  element.classList.add('flash');
+  setTimeout(() => element.classList.remove('flash'), 1600);
+}
+
+/* ------------------------------------------------------------------ */
+/* theme + events                                                      */
+/* ------------------------------------------------------------------ */
+function initialTheme() {
+  let stored = null;
+  try { stored = localStorage.getItem('worklog-theme'); } catch (error) { /* ignore */ }
+  if (stored === 'light' || stored === 'dark') return stored;
+  if (DATA.meta.theme === 'light' || DATA.meta.theme === 'dark') return DATA.meta.theme;
+  return window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
+}
+function applyTheme(theme) {
+  document.documentElement.dataset.theme = theme;
+  try { localStorage.setItem('worklog-theme', theme); } catch (error) { /* ignore */ }
+  $('#theme-toggle .label').textContent = theme === 'light' ? 'Sombre' : 'Clair';
+}
+let searchTimer = null;
+function bindEvents() {
+  $('#search').addEventListener('input', (event) => {
+    clearTimeout(searchTimer);
+    searchTimer = setTimeout(() => { state.query = event.target.value; render(); }, 120);
+  });
+  $('#range').addEventListener('change', (event) => { state.range = Number(event.target.value); render(); });
+  $('#project-filters').addEventListener('click', (event) => {
+    const chip = event.target.closest('[data-project]');
+    if (!chip) return;
+    const key = chip.dataset.project;
+    if (!key) state.projects.clear();
+    else if (state.projects.has(key)) state.projects.delete(key);
+    else state.projects.add(key);
+    render();
+  });
+  $('#kind-filters').addEventListener('click', (event) => {
+    const chip = event.target.closest('[data-kind]');
+    if (!chip) return;
+    const kind = chip.dataset.kind;
+    if (kind === 'note') state.projects.clear();
+    if (state.kinds.has(kind)) state.kinds.delete(kind);
+    else state.kinds.add(kind);
+    render();
+  });
+  $('#project-cards').addEventListener('click', (event) => {
+    const card = event.target.closest('[data-project]');
+    if (!card) return;
+    const key = card.dataset.project;
+    if (state.projects.has(key)) state.projects.delete(key);
+    else state.projects.add(key);
+    render();
+  });
+  $('#chart').addEventListener('click', (event) => {
+    const bar = event.target.closest('[data-date]');
+    if (bar) focusDay(bar.dataset.date);
+  });
+  $('#clear-filters').addEventListener('click', () => {
+    state.query = '';
+    state.projects.clear();
+    state.kinds.clear();
+    render();
+  });
+  $('#theme-toggle').addEventListener('click', () => {
+    applyTheme(document.documentElement.dataset.theme === 'light' ? 'dark' : 'light');
+  });
+  $('#expand-all').addEventListener('click', () => $$('#timeline details').forEach((details) => { details.open = true; }));
+  $('#collapse-all').addEventListener('click', () => $$('#timeline details').forEach((details) => { details.open = false; }));
+  $('#print-btn').addEventListener('click', () => window.print());
+  $('#export-md').addEventListener('click', exportMarkdown);
+  $('#timeline').addEventListener('click', (event) => {
+    const copyDayButton = event.target.closest('[data-copy-day]');
+    if (copyDayButton) { copyDay(copyDayButton.dataset.copyDay); return; }
+    const copyPathButton = event.target.closest('[data-copy-path]');
+    if (copyPathButton) { copyText(copyPathButton.dataset.copyPath); }
+  });
+  document.addEventListener('keydown', (event) => {
+    const tag = document.activeElement?.tagName;
+    if (event.key === '/' && !['INPUT', 'TEXTAREA', 'SELECT'].includes(tag)) {
+      event.preventDefault();
+      $('#search').focus();
+    }
+    if (event.key === 'Escape' && document.activeElement === $('#search')) {
+      state.query = '';
+      $('#search').value = '';
+      $('#search').blur();
+      render();
+    }
+  });
+  window.addEventListener('beforeprint', () => $$('#timeline details').forEach((details) => { details.open = true; }));
+  window.addEventListener('hashchange', () => {
+    const match = location.hash.match(/^#(\d{4}-\d{2}-\d{2})$/);
+    if (match) focusDay(match[1]);
+  });
+}
+
+function init() {
+  applyTheme(initialTheme());
+  $('#share-badge').hidden = !DATA.meta.share;
+  if (DATA.meta.share) $('#share-badge').textContent = 'version partagée';
+  renderWarnings();
+  bindEvents();
+  render();
+  const match = location.hash.match(/^#(\d{4}-\d{2}-\d{2})$/);
+  if (match) setTimeout(() => focusDay(match[1]), 100);
+}
+init();
+</script>
+</body>
+</html>
+
+
+
