@@ -1,6 +1,6 @@
 # Journal de travail
 
-_Simon Van de Meersche · généré le jeudi 22 octobre 2026 à 12:50_
+_Simon Van de Meersche · généré le jeudi 22 octobre 2026 à 12:54_
 
 > Version partagée : les notes personnelles ne sont pas incluses.
 
@@ -256,7 +256,7 @@ _Simon Van de Meersche · généré le jeudi 22 octobre 2026 à 12:50_
 - **IDR** (client) — Client immobilier — cahier des charges, visites et rappels. · alias : cahier IDR
 - **Baba** (client) — Client restaurant — agent vocal et écran cuisine (KDS). · alias : KDS Baba
 - **Jacob** (client) — Client restaurant — agent vocal et réservations.
-- **Hashtag CBD** (client) — Client e-commerce — synchronisation Hiboutik ↔ Shopify et images produit. · alias : Hashtag
+- **Hashtag CBD** (client) — Client e-commerce — synchronisation Hiboutik ↔ Shopify, images produit et SEO. · alias : Hashtag
 - **Multichannel** (produit) — Prospection et inbox email multicanale. · alias : outreach, Layton Multichannel
 - **Layton** (produit) — Plateforme de signaux d'intention B2B. · alias : intent signals
 - **Momentum** (produit) — Moteur de momentum personnel natif Omarchy : score, série, focus. · alias : score, focus
@@ -266,7 +266,7 @@ _Simon Van de Meersche · généré le jeudi 22 octobre 2026 à 12:50_
 - **Mnemosyne** (produit) — Assistant d'automatisation qui observe l'écran et propose des workflows. · alias : Mnémosyne
 - **Talkify** (produit) — Dictée vocale locale et privée pour Omarchy. · alias : dictée, speech-to-text
 - **Ideta Cyber** (produit) — Moteur LLM hybride local/cloud pour un projet cyber. · alias : Ideta, cyber
-- **Ops** (fonction) — Infrastructure, Mission Control, handbook et sites clients. · alias : Mission Control, infra
+- **Ops** (fonction) — Infrastructure, Mission Control, handbook, sites clients et studio vidéo. · alias : Mission Control, infra, vidéo
 - **Restaurants** (verticale) — Verticale restauration : commandes, réservations et KDS. · alias : resto
 - **Immobilier** (verticale) — Verticale immobilier : visites, rappels et gestion locative. · alias : immo
 - **Médecins** (verticale) — Verticale médecins : rendez-vous, consignes et listes d'attente. · alias : médecin
