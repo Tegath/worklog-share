@@ -1,6 +1,6 @@
 # Journal de travail
 
-_Simon Van de Meersche · généré le jeudi 22 octobre 2026 à 12:47_
+_Simon Van de Meersche · généré le jeudi 22 octobre 2026 à 12:50_
 
 > Version partagée : les notes personnelles ne sont pas incluses.
 
@@ -10,9 +10,16 @@ _Simon Van de Meersche · généré le jeudi 22 octobre 2026 à 12:47_
 - **Elevedia** — Parcours d'activation fiabilisé : checklist, parité des agents et garde-fous sur les essais.
 - **Elevedia** — Self-service immobilier : essai sans carte, abonnement, activation et attribution du numéro.
 - **Elevedia** — Sécurité renforcée : rôles admin, isolation des données et limites anti-abus sur les formulaires publics.
-- **Multichannel** — Inbox email à deux panneaux, recherche, thème clair/sombre et ingestion des réponses fiabilisée.
-- **Hashtag** — Synchronisation Hiboutik → Shopify et outil images produit pour Hashtag CBD.
-- **Ops** — Mission Control et infrastructure mis à jour.
+- **Multichannel** — Inbox email fiabilisée : nos propres messages ne sont plus ingérés comme des réponses prospects.
+- **Hashtag** — Nouveau backend SEO avec rotation automatique des clés.
+- **Momentum** — Interface de focus interactive, gestion des zones/projets et ambiances sonores.
+- **Momentum OS** — Dossiers Google Drive reliés aux zones, import de documents en tâches et copie en une tâche.
+- **Mail Hub** — Triage email automatique, relances et API locale pour l'interface.
+- **Mailspring** — Politique de notification et catégories Gmail/Outlook.
+- **Talkify** — Dictée vocale avec mode toggle, démarrage explicite et clés phonétiques insensibles aux accents.
+- **Mnemosyne** — Conseiller d'automatisation (routines, fiches sourcées, installateur 0.2).
+- **Ideta** — Moteur d'IA hybride local/cloud, avec repli automatique entre les deux.
+- **Ops** — Studio vidéo (formats, voix, musique) et infrastructure/Mission Control consolidés.
 
 ## mercredi 21 octobre 2026
 
