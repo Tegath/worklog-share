@@ -1,8 +1,10 @@
 # Journal de travail
 
-_Simon Van de Meersche · généré le jeudi 22 octobre 2026 à 12:54_
+_Simon Van de Meersche · généré le dimanche 1 novembre 2026 à 20:52_
 
 > Version partagée : les notes personnelles ne sont pas incluses.
+
+Cette page résume le travail réalisé sur nos projets : ce qui a été livré, l'état d'avancement de chaque projet et les sujets en cours. Elle est mise à jour automatiquement à partir du code, des pull requests et des livraisons. Aucune note personnelle n'y figure. Utilise la recherche pour retrouver un sujet, un client ou un mot-clé dans tout l'historique.
 
 ## Résumé pour associés
 
@@ -20,6 +22,88 @@ _Simon Van de Meersche · généré le jeudi 22 octobre 2026 à 12:54_
 - **Mnemosyne** — Conseiller d'automatisation (routines, fiches sourcées, installateur 0.2).
 - **Ideta** — Moteur d'IA hybride local/cloud, avec repli automatique entre les deux.
 - **Ops** — Studio vidéo (formats, voix, musique) et infrastructure/Mission Control consolidés.
+
+## dimanche 1 novembre 2026
+
+**1 PR ouverte**
+
+### Elevedia — agents vocaux
+
+- **PR ouverte** · [SMS Factor partout — ledger provider-neutre, MO/DLR/STOP, CRM](https://github.com/Tegath/elevedia/pull/705)
+
+---
+
+## samedi 31 octobre 2026
+
+**7 PR fusionnées · 7 PR ouvertes**
+
+### Elevedia — agents vocaux
+
+- **PR fusionnée** · [Multi-vertical voice bridge](https://github.com/Tegath/elevedia/pull/697)
+- **PR fusionnée** · [Medical voice appointments create the patient](https://github.com/Tegath/elevedia/pull/699)
+- **PR fusionnée** · [Bird adapter + signed webhook](https://github.com/Tegath/elevedia/pull/698)
+- **PR fusionnée** · [Phonic voice picker for the demo agents](https://github.com/Tegath/elevedia/pull/700)
+- **PR fusionnée** · [Route outbound SMS through Bird when SMS_PROVIDER=bird](https://github.com/Tegath/elevedia/pull/701)
+- **PR fusionnée** · [SMS Factor adapter + provider switch](https://github.com/Tegath/elevedia/pull/703)
+- **PR fusionnée** · [Redeploy API when app-sms changes](https://github.com/Tegath/elevedia/pull/704)
+
+---
+
+## vendredi 30 octobre 2026
+
+**1 PR fusionnée · 1 PR ouverte**
+
+### Elevedia — agents vocaux
+
+- **PR fusionnée** · [Resto demo in hub + /v1/voice/tools bridge; fix immo tools](https://github.com/Tegath/elevedia/pull/696)
+
+---
+
+## lundi 26 octobre 2026
+
+**1 PR fusionnée · 1 PR ouverte**
+
+### Elevedia — agents vocaux
+
+- **PR fusionnée** · [Self-serve voice agents — vérité d'activation, rollback flows, spine lifecycle, contrat d'essai](https://github.com/Tegath/elevedia/pull/694)
+
+---
+
+## vendredi 23 octobre 2026
+
+**3 PR fusionnées · 3 PR ouvertes**
+
+### Elevedia — agents vocaux
+
+- **PR fusionnée** · [Complete births with retention policy and pre-exam instructions](https://github.com/Tegath/elevedia/pull/691)
+- **PR fusionnée** · [Formal verification: exhaustive flow explorer + call lifecycle model + agent charters](https://github.com/Tegath/elevedia/pull/692)
+- **PR fusionnée** · [Reclassify missing greeting_end as hangup-during-greeting](https://github.com/Tegath/elevedia/pull/693)
+
+---
+
+## jeudi 22 octobre 2026
+
+**14 PR fusionnées · 7 PR ouvertes**
+
+### Elevedia — agents vocaux
+
+- **PR fusionnée** · [Acquisition provenance — lead → restaurant link, cold_email/reseau_direct](https://github.com/Tegath/elevedia/pull/413)
+- **PR fusionnée** · [Plus de fausses répétitions dans les transcriptions d'appel](https://github.com/Tegath/elevedia/pull/668)
+- **PR fusionnée** · [Le juge LLM en 2e ligne de la fiche agent](https://github.com/Tegath/elevedia/pull/634)
+- **PR fusionnée** · [Golden v1.9 — adresse à l'annonce, date de naissance, confirmation du numéro (cahier IDR)](https://github.com/Tegath/elevedia/pull/663)
+- **PR fusionnée** · [Reject truncated Belgian mobile numbers (silent SMS block)](https://github.com/Tegath/elevedia/pull/684)
+- **PR fusionnée** · [CRM directory freshness and platform detection migrations](https://github.com/Tegath/elevedia/pull/685)
+- **PR fusionnée** · [Variable {{outil}} dans l'outreach (plateforme métier détectée)](https://github.com/Tegath/elevedia/pull/622)
+- **PR fusionnée** · [Une heure tapée entre 1h00 et 1h59 un jour de changement d'heure n'est plus décalée](https://github.com/Tegath/elevedia/pull/510)
+- **PR ouverte** · [Day bounds independent of the server clock (rebase of #511)](https://github.com/Tegath/elevedia/pull/686)
+- **PR fusionnée** · [Day bounds independent of the server clock (rebase of #511)](https://github.com/Tegath/elevedia/pull/687)
+- **PR fusionnée** · [Le bandeau « retard » de l'accueil affiche ses refus en phrase lisible](https://github.com/Tegath/elevedia/pull/512)
+- **PR fusionnée** · [Thème nuit — les textes bleu marine redeviennent lisibles partout](https://github.com/Tegath/elevedia/pull/513)
+- **PR fusionnée** · [A filled honeypot must not fake a confirmation (autofill false positive)](https://github.com/Tegath/elevedia/pull/688)
+- **PR fusionnée** · [Fail2ban bans caused by missing PWA assets](https://github.com/Tegath/elevedia/pull/689)
+- **PR fusionnée** · [Honeypot returns the guard error (follow-up #688)](https://github.com/Tegath/elevedia/pull/690)
+
+---
 
 ## mercredi 21 octobre 2026
 
