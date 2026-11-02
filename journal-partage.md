@@ -1,6 +1,6 @@
 # Journal de travail
 
-_Simon Van de Meersche · généré le dimanche 1 novembre 2026 à 20:56_
+_Simon Van de Meersche · généré le lundi 2 novembre 2026 à 08:03_
 
 > Version partagée : les notes personnelles ne sont pas incluses.
 
@@ -25,11 +25,11 @@ Cette page résume le travail réalisé sur nos projets : ce qui a été livré,
 
 ## dimanche 1 novembre 2026
 
-**1 PR ouverte**
+**1 PR fusionnée · 1 PR ouverte**
 
 ### Elevedia — agents vocaux
 
-- **PR ouverte** · [SMS Factor partout — ledger provider-neutre, MO/DLR/STOP, CRM](https://github.com/Tegath/elevedia/pull/705)
+- **PR fusionnée** · SMS Factor partout — ledger provider-neutre, MO/DLR/STOP, CRM
 
 ---
 
@@ -39,13 +39,13 @@ Cette page résume le travail réalisé sur nos projets : ce qui a été livré,
 
 ### Elevedia — agents vocaux
 
-- **PR fusionnée** · [Multi-vertical voice bridge](https://github.com/Tegath/elevedia/pull/697)
-- **PR fusionnée** · [Medical voice appointments create the patient](https://github.com/Tegath/elevedia/pull/699)
-- **PR fusionnée** · [Bird adapter + signed webhook](https://github.com/Tegath/elevedia/pull/698)
-- **PR fusionnée** · [Phonic voice picker for the demo agents](https://github.com/Tegath/elevedia/pull/700)
-- **PR fusionnée** · [Route outbound SMS through Bird when SMS_PROVIDER=bird](https://github.com/Tegath/elevedia/pull/701)
-- **PR fusionnée** · [SMS Factor adapter + provider switch](https://github.com/Tegath/elevedia/pull/703)
-- **PR fusionnée** · [Redeploy API when app-sms changes](https://github.com/Tegath/elevedia/pull/704)
+- **PR fusionnée** · Multi-vertical voice bridge
+- **PR fusionnée** · Medical voice appointments create the patient
+- **PR fusionnée** · Bird adapter + signed webhook
+- **PR fusionnée** · Phonic voice picker for the demo agents
+- **PR fusionnée** · Route outbound SMS through Bird when SMS_PROVIDER=bird
+- **PR fusionnée** · SMS Factor adapter + provider switch
+- **PR fusionnée** · Redeploy API when app-sms changes
 
 ---
 
@@ -55,7 +55,7 @@ Cette page résume le travail réalisé sur nos projets : ce qui a été livré,
 
 ### Elevedia — agents vocaux
 
-- **PR fusionnée** · [Resto demo in hub + /v1/voice/tools bridge; fix immo tools](https://github.com/Tegath/elevedia/pull/696)
+- **PR fusionnée** · Resto demo in hub + /v1/voice/tools bridge; fix immo tools
 
 ---
 
@@ -65,7 +65,7 @@ Cette page résume le travail réalisé sur nos projets : ce qui a été livré,
 
 ### Elevedia — agents vocaux
 
-- **PR fusionnée** · [Self-serve voice agents — vérité d'activation, rollback flows, spine lifecycle, contrat d'essai](https://github.com/Tegath/elevedia/pull/694)
+- **PR fusionnée** · Self-serve voice agents — vérité d'activation, rollback flows, spine lifecycle, contrat d'essai
 
 ---
 
@@ -75,9 +75,9 @@ Cette page résume le travail réalisé sur nos projets : ce qui a été livré,
 
 ### Elevedia — agents vocaux
 
-- **PR fusionnée** · [Complete births with retention policy and pre-exam instructions](https://github.com/Tegath/elevedia/pull/691)
-- **PR fusionnée** · [Formal verification: exhaustive flow explorer + call lifecycle model + agent charters](https://github.com/Tegath/elevedia/pull/692)
-- **PR fusionnée** · [Reclassify missing greeting_end as hangup-during-greeting](https://github.com/Tegath/elevedia/pull/693)
+- **PR fusionnée** · Complete births with retention policy and pre-exam instructions
+- **PR fusionnée** · Formal verification: exhaustive flow explorer + call lifecycle model + agent charters
+- **PR fusionnée** · Reclassify missing greeting_end as hangup-during-greeting
 
 ---
 
@@ -87,21 +87,21 @@ Cette page résume le travail réalisé sur nos projets : ce qui a été livré,
 
 ### Elevedia — agents vocaux
 
-- **PR fusionnée** · [Acquisition provenance — lead → restaurant link, cold_email/reseau_direct](https://github.com/Tegath/elevedia/pull/413)
-- **PR fusionnée** · [Plus de fausses répétitions dans les transcriptions d'appel](https://github.com/Tegath/elevedia/pull/668)
-- **PR fusionnée** · [Le juge LLM en 2e ligne de la fiche agent](https://github.com/Tegath/elevedia/pull/634)
-- **PR fusionnée** · [Golden v1.9 — adresse à l'annonce, date de naissance, confirmation du numéro (cahier IDR)](https://github.com/Tegath/elevedia/pull/663)
-- **PR fusionnée** · [Reject truncated Belgian mobile numbers (silent SMS block)](https://github.com/Tegath/elevedia/pull/684)
-- **PR fusionnée** · [CRM directory freshness and platform detection migrations](https://github.com/Tegath/elevedia/pull/685)
-- **PR fusionnée** · [Variable {{outil}} dans l'outreach (plateforme métier détectée)](https://github.com/Tegath/elevedia/pull/622)
-- **PR fusionnée** · [Une heure tapée entre 1h00 et 1h59 un jour de changement d'heure n'est plus décalée](https://github.com/Tegath/elevedia/pull/510)
-- **PR ouverte** · [Day bounds independent of the server clock (rebase of #511)](https://github.com/Tegath/elevedia/pull/686)
-- **PR fusionnée** · [Day bounds independent of the server clock (rebase of #511)](https://github.com/Tegath/elevedia/pull/687)
-- **PR fusionnée** · [Le bandeau « retard » de l'accueil affiche ses refus en phrase lisible](https://github.com/Tegath/elevedia/pull/512)
-- **PR fusionnée** · [Thème nuit — les textes bleu marine redeviennent lisibles partout](https://github.com/Tegath/elevedia/pull/513)
-- **PR fusionnée** · [A filled honeypot must not fake a confirmation (autofill false positive)](https://github.com/Tegath/elevedia/pull/688)
-- **PR fusionnée** · [Fail2ban bans caused by missing PWA assets](https://github.com/Tegath/elevedia/pull/689)
-- **PR fusionnée** · [Honeypot returns the guard error (follow-up #688)](https://github.com/Tegath/elevedia/pull/690)
+- **PR fusionnée** · Acquisition provenance — lead → restaurant link, cold_email/reseau_direct
+- **PR fusionnée** · Plus de fausses répétitions dans les transcriptions d'appel
+- **PR fusionnée** · Le juge LLM en 2e ligne de la fiche agent
+- **PR fusionnée** · Golden v1.9 — adresse à l'annonce, date de naissance, confirmation du numéro (cahier IDR)
+- **PR fusionnée** · Reject truncated Belgian mobile numbers (silent SMS block)
+- **PR fusionnée** · CRM directory freshness and platform detection migrations
+- **PR fusionnée** · Variable {{outil}} dans l'outreach (plateforme métier détectée)
+- **PR fusionnée** · Une heure tapée entre 1h00 et 1h59 un jour de changement d'heure n'est plus décalée
+- **PR ouverte** · Day bounds independent of the server clock (rebase of #511)
+- **PR fusionnée** · Day bounds independent of the server clock (rebase of #511)
+- **PR fusionnée** · Le bandeau « retard » de l'accueil affiche ses refus en phrase lisible
+- **PR fusionnée** · Thème nuit — les textes bleu marine redeviennent lisibles partout
+- **PR fusionnée** · A filled honeypot must not fake a confirmation (autofill false positive)
+- **PR fusionnée** · Fail2ban bans caused by missing PWA assets
+- **PR fusionnée** · Honeypot returns the guard error (follow-up #688)
 
 ---
 
@@ -111,12 +111,12 @@ Cette page résume le travail réalisé sur nos projets : ce qui a été livré,
 
 ### Elevedia — agents vocaux
 
-- **PR fusionnée** · [Client cockpit with canonical voice config (all five verticals)](https://github.com/Tegath/elevedia/pull/679)
-- **PR fusionnée** · [Install app-conductor in the dashboard Docker deps stage](https://github.com/Tegath/elevedia/pull/680)
-- **PR fusionnée** · [Dependency-aware setup checklist on all agent pages](https://github.com/Tegath/elevedia/pull/681)
+- **PR fusionnée** · Client cockpit with canonical voice config (all five verticals)
+- **PR fusionnée** · Install app-conductor in the dashboard Docker deps stage
+- **PR fusionnée** · Dependency-aware setup checklist on all agent pages
 - **Tâche** · Agent vocal : transfert d'appel, mise en mute et SMS de confirmation — Spécifications issues de la note du jour : transfert de l'agent vers le portable du restaurateur, mise en mute pour écouter la conversation, et SMS de confirmation au client.
-- **PR ouverte** · [Unify the client chat with the guided funnel](https://github.com/Tegath/elevedia/pull/682)
-- **PR fusionnée** · [Unify the client chat with the guided funnel](https://github.com/Tegath/elevedia/pull/683)
+- **PR ouverte** · Unify the client chat with the guided funnel
+- **PR fusionnée** · Unify the client chat with the guided funnel
 
 ---
 
@@ -126,8 +126,8 @@ Cette page résume le travail réalisé sur nos projets : ce qui a été livré,
 
 ### Elevedia — agents vocaux
 
-- **PR fusionnée** · [Hallucinations Whisper, étapes explicites, opportunité manquante](https://github.com/Tegath/elevedia/pull/677)
-- **PR fusionnée** · [Pas de match par préfixe sur un nom à un seul mot](https://github.com/Tegath/elevedia/pull/678)
+- **PR fusionnée** · Hallucinations Whisper, étapes explicites, opportunité manquante
+- **PR fusionnée** · Pas de match par préfixe sur un nom à un seul mot
 
 ---
 
@@ -137,15 +137,15 @@ Cette page résume le travail réalisé sur nos projets : ce qui a été livré,
 
 ### Elevedia — agents vocaux
 
-- **PR ouverte** · [Plus de fausses répétitions dans les transcriptions d'appel](https://github.com/Tegath/elevedia/pull/668)
-- **PR fusionnée** · [Journal vocal — dicter une interaction sans formulaire](https://github.com/Tegath/elevedia/pull/669)
-- **PR fusionnée** · [Laisser /api/voice-log atteindre son auth token](https://github.com/Tegath/elevedia/pull/670)
-- **PR fusionnée** · [Extraction vocale sur Gemma-4 local (Anthropic HS)](https://github.com/Tegath/elevedia/pull/671)
-- **PR fusionnée** · [Schéma vocal tolérant (nulls Gemma-4) + Groq gpt-oss-120b](https://github.com/Tegath/elevedia/pull/672)
-- **PR fusionnée** · [L'annulation vocal supprime aussi l'établissement créé](https://github.com/Tegath/elevedia/pull/673)
-- **PR fusionnée** · [Normalise la raison de perte avant l'enum Postgres](https://github.com/Tegath/elevedia/pull/674)
-- **PR fusionnée** · [Résolveur vocal — pas de match sur un token générique court](https://github.com/Tegath/elevedia/pull/675)
-- **PR fusionnée** · [Groq chat opt-in + erreur LLM lisible](https://github.com/Tegath/elevedia/pull/676)
+- **PR ouverte** · Plus de fausses répétitions dans les transcriptions d'appel
+- **PR fusionnée** · Journal vocal — dicter une interaction sans formulaire
+- **PR fusionnée** · Laisser /api/voice-log atteindre son auth token
+- **PR fusionnée** · Extraction vocale sur Gemma-4 local (Anthropic HS)
+- **PR fusionnée** · Schéma vocal tolérant (nulls Gemma-4) + Groq gpt-oss-120b
+- **PR fusionnée** · L'annulation vocal supprime aussi l'établissement créé
+- **PR fusionnée** · Normalise la raison de perte avant l'enum Postgres
+- **PR fusionnée** · Résolveur vocal — pas de match sur un token générique court
+- **PR fusionnée** · Groq chat opt-in + erreur LLM lisible
 
 ---
 
@@ -155,9 +155,9 @@ Cette page résume le travail réalisé sur nos projets : ce qui a été livré,
 
 ### Elevedia — agents vocaux
 
-- **PR fusionnée** · [Un seul SMS par annulation de série](https://github.com/Tegath/elevedia/pull/664)
-- **PR fusionnée** · [Rappel de visite H-2 coupable par agence (cahier IDR 14-10)](https://github.com/Tegath/elevedia/pull/661)
-- **PR fusionnée** · [Book-visit enregistre la date de naissance du visiteur (cahier IDR 14-10)](https://github.com/Tegath/elevedia/pull/662)
+- **PR fusionnée** · Un seul SMS par annulation de série
+- **PR fusionnée** · Rappel de visite H-2 coupable par agence (cahier IDR 14-10)
+- **PR fusionnée** · Book-visit enregistre la date de naissance du visiteur (cahier IDR 14-10)
 
 ---
 
@@ -167,7 +167,7 @@ Cette page résume le travail réalisé sur nos projets : ce qui a été livré,
 
 ### Elevedia — agents vocaux
 
-- **PR ouverte** · [Portage de numéro en self-service (resto) — parcours client, file admin, relances](https://github.com/Tegath/elevedia/pull/667)
+- **PR ouverte** · Portage de numéro en self-service (resto) — parcours client, file admin, relances
 
 ---
 
@@ -177,9 +177,9 @@ Cette page résume le travail réalisé sur nos projets : ce qui a été livré,
 
 ### Elevedia — agents vocaux
 
-- **PR ouverte** · [Un seul SMS par annulation de série](https://github.com/Tegath/elevedia/pull/664)
-- **PR fusionnée** · [Fenêtres par prestation, RDV chaînés multi-collaborateurs, droits staff, timeline](https://github.com/Tegath/elevedia/pull/665)
-- **PR fusionnée** · [Statut de ship du patch moteur médecins (e797e9d, LIVRÉ)](https://github.com/Tegath/elevedia/pull/666)
+- **PR ouverte** · Un seul SMS par annulation de série
+- **PR fusionnée** · Fenêtres par prestation, RDV chaînés multi-collaborateurs, droits staff, timeline
+- **PR fusionnée** · Statut de ship du patch moteur médecins (e797e9d, LIVRÉ)
 
 ---
 
@@ -189,9 +189,9 @@ Cette page résume le travail réalisé sur nos projets : ce qui a été livré,
 
 ### Elevedia — agents vocaux
 
-- **PR ouverte** · [Rappel de visite H-2 coupable par agence (cahier IDR 14-10)](https://github.com/Tegath/elevedia/pull/661)
-- **PR ouverte** · [Book-visit enregistre la date de naissance du visiteur (cahier IDR 14-10)](https://github.com/Tegath/elevedia/pull/662)
-- **PR ouverte** · [Golden v1.9 — adresse à l'annonce, date de naissance, confirmation du numéro (cahier IDR)](https://github.com/Tegath/elevedia/pull/663)
+- **PR ouverte** · Rappel de visite H-2 coupable par agence (cahier IDR 14-10)
+- **PR ouverte** · Book-visit enregistre la date de naissance du visiteur (cahier IDR 14-10)
+- **PR ouverte** · Golden v1.9 — adresse à l'annonce, date de naissance, confirmation du numéro (cahier IDR)
 
 ---
 
@@ -201,14 +201,14 @@ Cette page résume le travail réalisé sur nos projets : ce qui a été livré,
 
 ### Elevedia — agents vocaux
 
-- **PR fusionnée** · [Dashboard P1 — tickets de table, clients, appels](https://github.com/Tegath/elevedia/pull/653)
-- **PR fusionnée** · [Réglages resto — les choix client pilotent le flow golden (v2)](https://github.com/Tegath/elevedia/pull/654)
-- **PR fusionnée** · [Liste d'attente gatée par la clé catalogue medecins.waitlist.enabled](https://github.com/Tegath/elevedia/pull/655)
-- **PR fusionnée** · [L'assistant self-serve du restaurateur — chat d'abord, garde-fous intacts](https://github.com/Tegath/elevedia/pull/656)
-- **PR fusionnée** · [Consignes pré-examen par acte (CIM² v1)](https://github.com/Tegath/elevedia/pull/657)
-- **PR fusionnée** · [Appointments.prestation_id — le RDV porte l'acte (consignes voix)](https://github.com/Tegath/elevedia/pull/658)
-- **PR fusionnée** · [Capacités bornées, prompt client, verdict du run + montage services](https://github.com/Tegath/elevedia/pull/659)
-- **PR fusionnée** · [Médecins + notaire montés (même coquille)](https://github.com/Tegath/elevedia/pull/660)
+- **PR fusionnée** · Dashboard P1 — tickets de table, clients, appels
+- **PR fusionnée** · Réglages resto — les choix client pilotent le flow golden (v2)
+- **PR fusionnée** · Liste d'attente gatée par la clé catalogue medecins.waitlist.enabled
+- **PR fusionnée** · L'assistant self-serve du restaurateur — chat d'abord, garde-fous intacts
+- **PR fusionnée** · Consignes pré-examen par acte (CIM² v1)
+- **PR fusionnée** · Appointments.prestation_id — le RDV porte l'acte (consignes voix)
+- **PR fusionnée** · Capacités bornées, prompt client, verdict du run + montage services
+- **PR fusionnée** · Médecins + notaire montés (même coquille)
 
 ---
 
@@ -218,11 +218,11 @@ Cette page résume le travail réalisé sur nos projets : ce qui a été livré,
 
 ### Elevedia — agents vocaux
 
-- **PR ouverte** · [Registry(diagrammes): specs flux-appel (gabarit schémas tldraw)](https://github.com/Tegath/kb/pull/1)
-- **PR fusionnée** · [SSI-4 — onboarding immo : étape formule + reprise au bon endroit](https://github.com/Tegath/elevedia/pull/649)
-- **PR fusionnée** · [KDS Baba P1 : n° de table figé + passe bar « Plat prêt » + alertes par poste](https://github.com/Tegath/elevedia/pull/650)
-- **PR fusionnée** · [Dashboards clients depuis demo.elevedia.be sans accès admin](https://github.com/Tegath/elevedia/pull/651)
-- **PR fusionnée** · [Resto births get their public booking_slug](https://github.com/Tegath/elevedia/pull/652)
+- **PR ouverte** · Registry(diagrammes): specs flux-appel (gabarit schémas tldraw)
+- **PR fusionnée** · SSI-4 — onboarding immo : étape formule + reprise au bon endroit
+- **PR fusionnée** · KDS Baba P1 : n° de table figé + passe bar « Plat prêt » + alertes par poste
+- **PR fusionnée** · Dashboards clients depuis demo.elevedia.be sans accès admin
+- **PR fusionnée** · Resto births get their public booking_slug
 
 ---
 
@@ -232,16 +232,16 @@ Cette page résume le travail réalisé sur nos projets : ce qui a été livré,
 
 ### Elevedia — agents vocaux
 
-- **PR fusionnée** · [Clonage de voix + cartes voix sur la page agent (alignement phase A)](https://github.com/Tegath/elevedia/pull/639)
-- **PR fusionnée** · [Page agent alignée sur les 4 autres verticales (phase B)](https://github.com/Tegath/elevedia/pull/641)
-- **PR fusionnée** · [Dashboard: marquer les tours agent non prononcés (transcription)](https://github.com/Tegath/elevedia/pull/642)
-- **PR fusionnée** · [Passer full_name au createUser — la naissance médecins mourait à l'étape 1](https://github.com/Tegath/elevedia/pull/644)
-- **PR fusionnée** · [Parité — colonne notifications, schéma Drizzle, garde naissance (phase C)](https://github.com/Tegath/elevedia/pull/643)
-- **PR fusionnée** · [SSI-1 (v1) — essai sans carte : cap des appels test + un essai par téléphone](https://github.com/Tegath/elevedia/pull/640)
-- **PR fusionnée** · [Ops(birth): banc de naissance médecins versionné (smoke dev)](https://github.com/Tegath/elevedia/pull/646)
-- **PR fusionnée** · [SSI-2 — checkout abonnement immo → activation automatique](https://github.com/Tegath/elevedia/pull/645)
-- **PR fusionnée** · [La recette bloquante ne se mettait plus en file depuis le 26-09](https://github.com/Tegath/elevedia/pull/647)
-- **PR fusionnée** · [SSI-3 (immo) — une seule source de prix + portail self-service](https://github.com/Tegath/elevedia/pull/648)
+- **PR fusionnée** · Clonage de voix + cartes voix sur la page agent (alignement phase A)
+- **PR fusionnée** · Page agent alignée sur les 4 autres verticales (phase B)
+- **PR fusionnée** · Dashboard: marquer les tours agent non prononcés (transcription)
+- **PR fusionnée** · Passer full_name au createUser — la naissance médecins mourait à l'étape 1
+- **PR fusionnée** · Parité — colonne notifications, schéma Drizzle, garde naissance (phase C)
+- **PR fusionnée** · SSI-1 (v1) — essai sans carte : cap des appels test + un essai par téléphone
+- **PR fusionnée** · Ops(birth): banc de naissance médecins versionné (smoke dev)
+- **PR fusionnée** · SSI-2 — checkout abonnement immo → activation automatique
+- **PR fusionnée** · La recette bloquante ne se mettait plus en file depuis le 26-09
+- **PR fusionnée** · SSI-3 (immo) — une seule source de prix + portail self-service
 
 ---
 
@@ -251,8 +251,8 @@ Cette page résume le travail réalisé sur nos projets : ce qui a été livré,
 
 ### Elevedia — agents vocaux
 
-- **PR fusionnée** · [Clonage de voix client via Gradium (4 dashboards)](https://github.com/Tegath/elevedia/pull/638)
-- **PR fusionnée** · [SSI-0 (D2) — le DID se claim à l'activation, plus à la naissance](https://github.com/Tegath/elevedia/pull/637)
+- **PR fusionnée** · Clonage de voix client via Gradium (4 dashboards)
+- **PR fusionnée** · SSI-0 (D2) — le DID se claim à l'activation, plus à la naissance
 
 ---
 
@@ -262,7 +262,7 @@ Cette page résume le travail réalisé sur nos projets : ce qui a été livré,
 
 ### Elevedia — agents vocaux
 
-- **PR fusionnée** · [Duplex_resume + registre de comportement — les naissances héritent de tous les fixes](https://github.com/Tegath/elevedia/pull/636)
+- **PR fusionnée** · Duplex_resume + registre de comportement — les naissances héritent de tous les fixes
 
 ---
 
@@ -272,12 +272,12 @@ Cette page résume le travail réalisé sur nos projets : ce qui a été livré,
 
 ### Elevedia — agents vocaux
 
-- **PR fusionnée** · [Quota atteint = surconsommation comptée, jamais de pause](https://github.com/Tegath/elevedia/pull/630)
-- **PR fusionnée** · [La migration quota-overage cible consume_minutes (pas consume_new_call_minutes)](https://github.com/Tegath/elevedia/pull/631)
-- **PR fusionnée** · [Quota atteint = surconsommation comptée, jamais de pause](https://github.com/Tegath/elevedia/pull/632)
-- **PR ouverte** · [Une relance sur 5xx/timeout — la confirmation ne part plus en fumée](https://github.com/Tegath/elevedia/pull/633)
-- **PR ouverte** · [Le juge LLM en 2e ligne de la fiche agent](https://github.com/Tegath/elevedia/pull/634)
-- **PR fusionnée** · [Parité de la page /agent avec le client resto](https://github.com/Tegath/elevedia/pull/635)
+- **PR fusionnée** · Quota atteint = surconsommation comptée, jamais de pause
+- **PR fusionnée** · La migration quota-overage cible consume_minutes (pas consume_new_call_minutes)
+- **PR fusionnée** · Quota atteint = surconsommation comptée, jamais de pause
+- **PR ouverte** · Une relance sur 5xx/timeout — la confirmation ne part plus en fumée
+- **PR ouverte** · Le juge LLM en 2e ligne de la fiche agent
+- **PR fusionnée** · Parité de la page /agent avec le client resto
 
 ---
 
@@ -287,12 +287,12 @@ Cette page résume le travail réalisé sur nos projets : ce qui a été livré,
 
 ### Elevedia — agents vocaux
 
-- **PR fusionnée** · [Résa invité sans compte sur le site public](https://github.com/Tegath/elevedia/pull/624)
-- **PR fusionnée** · [Parité admin Imovia ↔ Elevedia : agences, analytics, rapports, usage](https://github.com/Tegath/elevedia/pull/625)
-- **PR fusionnée** · [Admin Imovia : page Agents vocaux (liste + fiche agent canonique)](https://github.com/Tegath/elevedia/pull/626)
-- **PR fusionnée** · [Admin Imovia — vérif agents : bug sync numéros, numéro assignable, horaires d'ouverture](https://github.com/Tegath/elevedia/pull/627)
-- **PR fusionnée** · [Admin Imovia — garde-fou numéros : le pool ne peut plus voler un numéro d'une autre verticale](https://github.com/Tegath/elevedia/pull/628)
-- **PR fusionnée** · [HOTFIX — garde-fou pool : basé sur le trunk LiveKit, pas la connexion Telnyx](https://github.com/Tegath/elevedia/pull/629)
+- **PR fusionnée** · Résa invité sans compte sur le site public
+- **PR fusionnée** · Parité admin Imovia ↔ Elevedia : agences, analytics, rapports, usage
+- **PR fusionnée** · Admin Imovia : page Agents vocaux (liste + fiche agent canonique)
+- **PR fusionnée** · Admin Imovia — vérif agents : bug sync numéros, numéro assignable, horaires d'ouverture
+- **PR fusionnée** · Admin Imovia — garde-fou numéros : le pool ne peut plus voler un numéro d'une autre verticale
+- **PR fusionnée** · HOTFIX — garde-fou pool : basé sur le trunk LiveKit, pas la connexion Telnyx
 
 ---
 
@@ -302,8 +302,8 @@ Cette page résume le travail réalisé sur nos projets : ce qui a été livré,
 
 ### Elevedia — agents vocaux
 
-- **PR ouverte** · [Variable {{outil}} dans l'outreach (plateforme métier détectée)](https://github.com/Tegath/elevedia/pull/622)
-- **PR ouverte** · [Crm_directory_plateformes — plateformes métier des fiches (détection, annuaires, file)](https://github.com/Tegath/elevedia/pull/623)
+- **PR ouverte** · Variable {{outil}} dans l'outreach (plateforme métier détectée)
+- **PR ouverte** · Crm_directory_plateformes — plateformes métier des fiches (détection, annuaires, file)
 
 ---
 
@@ -313,23 +313,23 @@ Cette page résume le travail réalisé sur nos projets : ce qui a été livré,
 
 ### Elevedia — agents vocaux
 
-- **PR ouverte** · [Security(db): lock down users, definer functions, RLS (migrations NOT applied)](https://github.com/Tegath/elevedia/pull/610)
-- **PR fusionnée** · [Security: lock admin server actions + app_metadata role checks](https://github.com/Tegath/elevedia/pull/612)
-- **PR fusionnée** · [Security: backend fixes (Mollie, SMS pumping, SSRF, IDOR, fail-closed crons)](https://github.com/Tegath/elevedia/pull/611)
-- **PR fusionnée** · [Security(crm): app_metadata roles + ownership checks](https://github.com/Tegath/elevedia/pull/609)
-- **PR fusionnée** · [Security: OAuth callbacks, immo roles, fail-closed crons, tenant filters](https://github.com/Tegath/elevedia/pull/613)
-- **PR fusionnée** · [Public booking limits, customer no-overwrite, server-proven onboarding phone](https://github.com/Tegath/elevedia/pull/614)
-- **PR fusionnée** · [Dashboard: touch-first pass (tablette, doigts, mots simples)](https://github.com/Tegath/elevedia/pull/615)
-- **PR fusionnée** · [Nouveaux agents nés avec la voix Cartesia Inès](https://github.com/Tegath/elevedia/pull/616)
-- **PR fusionnée** · [Cap anonymous order creation (anti SMS/email/kitchen abuse)](https://github.com/Tegath/elevedia/pull/617)
-- **PR fusionnée** · [Sec: CRM gcal OAuth state signing, .env ignore, sharp 0.35.4](https://github.com/Tegath/elevedia/pull/618)
-- **PR fusionnée** · [Close birth parity gaps (immo admin wizard, notaire golden, fr+nl, demos)](https://github.com/Tegath/elevedia/pull/619)
-- **PR fusionnée** · [Sec: invisible anti-bot guard on public forms + medecins signup limits](https://github.com/Tegath/elevedia/pull/620)
-- **PR fusionnée** · [Cartesia credit tracking + premium-voice fallback alert](https://github.com/Tegath/elevedia/pull/621)
+- **PR ouverte** · Security(db): lock down users, definer functions, RLS (migrations NOT applied)
+- **PR fusionnée** · Security: lock admin server actions + app_metadata role checks
+- **PR fusionnée** · Security: backend fixes (Mollie, SMS pumping, SSRF, IDOR, fail-closed crons)
+- **PR fusionnée** · Security(crm): app_metadata roles + ownership checks
+- **PR fusionnée** · Security: OAuth callbacks, immo roles, fail-closed crons, tenant filters
+- **PR fusionnée** · Public booking limits, customer no-overwrite, server-proven onboarding phone
+- **PR fusionnée** · Dashboard: touch-first pass (tablette, doigts, mots simples)
+- **PR fusionnée** · Nouveaux agents nés avec la voix Cartesia Inès
+- **PR fusionnée** · Cap anonymous order creation (anti SMS/email/kitchen abuse)
+- **PR fusionnée** · Sec: CRM gcal OAuth state signing, .env ignore, sharp 0.35.4
+- **PR fusionnée** · Close birth parity gaps (immo admin wizard, notaire golden, fr+nl, demos)
+- **PR fusionnée** · Sec: invisible anti-bot guard on public forms + medecins signup limits
+- **PR fusionnée** · Cartesia credit tracking + premium-voice fallback alert
 
 ### Multichannel — outreach
 
-- **PR fusionnée** · [Never ingest our own mail as a prospect reply](https://github.com/Tegath/layton-multichannel/pull/10)
+- **PR fusionnée** · Never ingest our own mail as a prospect reply
 
 ---
 
